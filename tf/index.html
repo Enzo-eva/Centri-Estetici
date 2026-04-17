@@ -6,47 +6,143 @@
 <title>Dashboard Tempio di Fidia</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f3;color:#1a1a1a;padding:1.5rem}
-.container{max-width:860px;margin:0 auto}
-.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:8px}
-.header-left{display:flex;align-items:center;gap:12px}
-.avatar{width:42px;height:42px;border-radius:50%;background:#EEEDFE;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#3C3489}
-.centro-name{font-size:20px;font-weight:600}
-.centro-sub{font-size:13px;color:#666}
-.badge{font-size:11px;padding:4px 12px;border-radius:99px;font-weight:500;background:#EAF3DE;color:#3B6D11}
-.section-label{font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px}
+:root{
+  --sk-blue:#00b3e6;
+  --sk-blue-light:#e0f6fd;
+  --sk-blue-mid:#7fd9f3;
+  --sk-blue-dark:#0080a6;
+  --sk-gray:#5b6770;
+  --sk-gray-light:#eef0f1;
+  --sk-gray-mid:#c2c8cc;
+  --sk-gray-dark:#3a4349;
+  --sk-bg:#f4f7f8;
+  --sk-white:#ffffff;
+  --sk-green:#2db87a;
+  --sk-green-light:#e3f7ee;
+  --sk-amber:#e8950a;
+  --sk-amber-light:#fef3dc;
+  --sk-red:#d94040;
+  --sk-red-light:#fceaea;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--sk-bg);color:var(--sk-gray-dark);padding:1.5rem}
+.container{max-width:900px;margin:0 auto}
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:8px;background:var(--sk-white);border-radius:14px;padding:1.25rem 1.5rem;border:1px solid var(--sk-gray-mid)}
+.header-left{display:flex;align-items:center;gap:14px}
+.avatar{width:44px;height:44px;border-radius:50%;background:var(--sk-blue-light);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--sk-blue-dark)}
+.centro-name{font-size:20px;font-weight:700;color:var(--sk-gray-dark)}
+.centro-sub{font-size:13px;color:var(--sk-gray)}
+.skinem-brand{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--sk-blue);letter-spacing:.03em}
+.sk-dot{width:8px;height:8px;border-radius:50%;background:var(--sk-blue)}
+.badge{font-size:11px;padding:4px 12px;border-radius:99px;font-weight:600}
+.badge-green{background:var(--sk-green-light);color:var(--sk-green)}
+.badge-amber{background:var(--sk-amber-light);color:var(--sk-amber)}
+.badge-blue{background:var(--sk-blue-light);color:var(--sk-blue-dark)}
+.sl{font-size:11px;font-weight:700;color:var(--sk-gray);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+.card{background:var(--sk-white);border:1px solid var(--sk-gray-mid);border-radius:12px;padding:1.25rem;margin-bottom:1rem}
+.card-blue{border-top:3px solid var(--sk-blue)}
+.green{color:var(--sk-green)}.amber{color:var(--sk-amber)}.red{color:var(--sk-red)}.blue{color:var(--sk-blue-dark)}
+
+/* TAB MESI */
+.tab-row{display:flex;gap:6px;margin-bottom:1.25rem;flex-wrap:wrap}
+.tab{font-size:13px;padding:6px 16px;border-radius:99px;border:1.5px solid var(--sk-gray-mid);background:transparent;color:var(--sk-gray);cursor:pointer;font-weight:500}
+.tab.active{background:var(--sk-blue);color:#fff;border-color:var(--sk-blue)}
+.month-panel{display:none}.month-panel.active{display:block}
+
+/* METRICHE */
 .metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem}
-.metric{background:#fff;border-radius:10px;padding:.9rem 1rem;border:1px solid #e8e8e5}
-.m-label{font-size:12px;color:#888;margin-bottom:4px}
-.m-value{font-size:22px;font-weight:600;line-height:1.2}
+.metric{background:var(--sk-white);border-radius:10px;padding:.9rem 1rem;border:1px solid var(--sk-gray-mid)}
+.m-label{font-size:12px;color:var(--sk-gray);margin-bottom:4px}
+.m-value{font-size:22px;font-weight:700;line-height:1.2;color:var(--sk-gray-dark)}
 .m-delta{font-size:12px;margin-top:3px}
-.green{color:#1D9E75}.amber{color:#BA7517}.red{color:#E24B4A}
-.card{background:#fff;border:1px solid #e8e8e5;border-radius:12px;padding:1.25rem;margin-bottom:1rem}
-.two-col{display:grid;grid-template-columns:1.4fr 1fr;gap:1rem;margin-bottom:1rem}
+
+/* OPERATRICI */
+.op-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1rem}
+.op-card{background:var(--sk-gray-light);border-radius:10px;padding:.85rem 1rem;border-left:3px solid var(--sk-blue)}
+.op-nome{font-size:13px;font-weight:700;color:var(--sk-gray-dark)}
+.op-turno{font-size:11px;color:var(--sk-gray);margin-top:2px}
+.op-incasso{font-size:18px;font-weight:700;margin-top:8px;color:var(--sk-gray-dark)}
+.op-clienti{font-size:11px;color:var(--sk-gray);margin-top:2px}
+
+/* TABELLA */
 table{width:100%;font-size:13px;border-collapse:collapse}
-th{font-size:11px;font-weight:600;color:#888;text-align:left;padding:4px 8px 8px;border-bottom:1px solid #eee}
-td{padding:7px 8px;border-bottom:1px solid #f0f0ee;color:#1a1a1a}
+th{font-size:11px;font-weight:700;color:var(--sk-gray);text-align:left;padding:4px 8px 8px;border-bottom:2px solid var(--sk-blue-light)}
+td{padding:7px 8px;border-bottom:1px solid var(--sk-gray-light);color:var(--sk-gray-dark)}
 tr:last-child td{border-bottom:none}
 td.num{text-align:right;font-variant-numeric:tabular-nums}
-tr.total td{font-weight:600;border-top:1px solid #ddd}
+tr.total td{font-weight:700;border-top:2px solid var(--sk-blue-light);background:var(--sk-blue-light)}
+
+/* ALERT */
 .alert-list{list-style:none;display:flex;flex-direction:column;gap:8px}
 .alert-item{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:8px}
-.warn{background:#FAEEDA}.good{background:#EAF3DE}.info{background:#E6F1FB}
+.warn{background:var(--sk-amber-light)}.good{background:var(--sk-green-light)}.info{background:var(--sk-blue-light)}.danger{background:var(--sk-red-light)}
 .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
-.dot-warn{background:#BA7517}.dot-good{background:#1D9E75}.dot-info{background:#185FA5}
-.alert-text{font-size:13px;line-height:1.5}
+.dot-warn{background:var(--sk-amber)}.dot-good{background:var(--sk-green)}.dot-info{background:var(--sk-blue)}.dot-red{background:var(--sk-red)}
+.alert-text{font-size:13px;line-height:1.5;color:var(--sk-gray-dark)}
 .alert-text strong{font-weight:600}
+
+/* OBIETTIVI */
 .ob-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.ob-label{font-size:13px;flex:1}
-.ob-bar{flex:1.5;height:8px;background:#eee;border-radius:99px;overflow:hidden}
+.ob-label{font-size:13px;flex:1;color:var(--sk-gray-dark)}
+.ob-bar{flex:1.5;height:8px;background:var(--sk-gray-light);border-radius:99px;overflow:hidden}
 .ob-fill{height:100%;border-radius:99px}
-.ob-val{font-size:13px;font-weight:600;min-width:36px;text-align:right}
-.note-box{background:#f5f5f3;border-radius:8px;padding:1rem;font-size:13px;line-height:1.7}
+.ob-val{font-size:13px;font-weight:700;min-width:36px;text-align:right}
+
+/* CAPACITA */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem}
+.met{background:var(--sk-gray-light);border-radius:8px;padding:.85rem 1rem}
+.ml{font-size:12px;color:var(--sk-gray);margin-bottom:4px}
+.mv{font-size:20px;font-weight:700;color:var(--sk-gray-dark)}
+.cap-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.cap-label{font-size:13px;flex:1.5;color:var(--sk-gray-dark)}
+.cap-bar{flex:2;height:8px;background:var(--sk-gray-light);border-radius:99px;overflow:hidden}
+.cap-fill{height:100%;border-radius:99px}
+.cap-val{font-size:13px;font-weight:700;min-width:40px;text-align:right}
+
+/* FUNNEL */
+.funnel{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1rem}
+.fstep{border-radius:8px;padding:1rem;text-align:center}
+.fstep-num{font-size:24px;font-weight:700;line-height:1}
+.fstep-label{font-size:11px;font-weight:700;margin-top:4px}
+.fstep-sub{font-size:10px;margin-top:2px;opacity:.75}
+.f1{background:var(--sk-blue-light);color:var(--sk-blue-dark)}
+.f2{background:#b3eaf7;color:var(--sk-blue-dark)}
+.f3{background:var(--sk-blue-mid);color:var(--sk-blue-dark)}
+.f4{background:var(--sk-blue);color:#fff}
+
+/* LEAD */
+.lead-list{display:flex;flex-direction:column;gap:8px}
+.lead-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:8px;background:var(--sk-gray-light)}
+.lead-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.la-ig{background:#e0d5f7;color:#4a2d9e}
+.la-wa{background:var(--sk-green-light);color:#1a7a4a}
+.la-gg{background:var(--sk-blue-light);color:var(--sk-blue-dark)}
+.lead-info{flex:1}
+.lead-nome{font-size:13px;font-weight:600;color:var(--sk-gray-dark)}
+.lead-fonte{font-size:11px;color:var(--sk-gray);margin-top:1px}
+.lead-status{font-size:11px;padding:2px 8px;border-radius:99px;font-weight:600}
+.st-nuovo{background:var(--sk-blue-light);color:var(--sk-blue-dark)}
+.st-contattato{background:var(--sk-amber-light);color:var(--sk-amber)}
+.st-consulenza{background:#e0d5f7;color:#4a2d9e}
+.st-chiuso{background:var(--sk-green-light);color:var(--sk-green)}
+.coming{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:3px 10px;border-radius:99px;background:var(--sk-blue-light);color:var(--sk-blue-dark);font-weight:600;margin-left:8px}
+
+/* NOTE */
+.note-box{background:var(--sk-blue-light);border-left:3px solid var(--sk-blue);border-radius:0 8px 8px 0;padding:1rem;font-size:13px;line-height:1.7;color:var(--sk-gray-dark)}
 .note-head{display:flex;justify-content:space-between;margin-bottom:8px;align-items:center}
-.note-head span{font-size:12px;color:#888}
-.footer{display:flex;justify-content:space-between;align-items:center;padding-top:1rem;border-top:1px solid #eee;margin-top:.5rem;font-size:12px;color:#888}
-.footer strong{color:#1a1a1a}
-@media(max-width:600px){.metrics-grid{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}}
+.note-head span{font-size:12px;color:var(--sk-gray)}
+
+/* TWO COL */
+.two-col{display:grid;grid-template-columns:1.4fr 1fr;gap:1rem;margin-bottom:1rem}
+
+/* FOOTER */
+.footer{display:flex;justify-content:space-between;align-items:center;padding-top:1rem;border-top:2px solid var(--sk-blue-light);margin-top:.5rem;font-size:12px;color:var(--sk-gray)}
+.footer strong{color:var(--sk-blue-dark)}
+.footer .logo{font-size:13px;font-weight:700;color:var(--sk-blue);letter-spacing:.05em}
+
+@media(max-width:640px){
+  .metrics-grid,.op-grid,.funnel{grid-template-columns:repeat(2,1fr)}
+  .two-col,.grid3{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -57,112 +153,248 @@ tr.total td{font-weight:600;border-top:1px solid #ddd}
       <div class="avatar">TF</div>
       <div>
         <div class="centro-name">Tempio di Fidia</div>
-        <div class="centro-sub">Settimana 30 mar – 4 apr 2026</div>
+        <div class="centro-sub">Resp. Alessia · 4 operatrici · Mar–Sab</div>
       </div>
     </div>
-    <span class="badge">Buone performance</span>
-  </div>
-
-  <p class="section-label">Riepilogo settimana</p>
-  <div class="metrics-grid">
-    <div class="metric">
-      <div class="m-label">Incasso totale</div>
-      <div class="m-value">€3.884</div>
-      <div class="m-delta green">5 giorni lavorativi</div>
-    </div>
-    <div class="metric">
-      <div class="m-label">Clienti serviti</div>
-      <div class="m-value">72</div>
-      <div class="m-delta green">volume alto</div>
-    </div>
-    <div class="metric">
-      <div class="m-label">Scontrino medio</div>
-      <div class="m-value">€53,9</div>
-      <div class="m-delta amber">obiettivo €70</div>
-    </div>
-    <div class="metric">
-      <div class="m-label">Vendita prodotti</div>
-      <div class="m-value">—</div>
-      <div class="m-delta red">dato mancante</div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+      <div class="skinem-brand"><span class="sk-dot"></span>SKINEM</div>
+      <span class="badge badge-green">Buone performance</span>
     </div>
   </div>
 
-  <div class="two-col">
+  <!-- TAB MESI -->
+  <div class="tab-row">
+    <button class="tab active" onclick="switchMonth('marzo',this)">Marzo 2026</button>
+    <button class="tab" onclick="switchMonth('aprile',this)">Aprile 2026</button>
+    <button class="tab" onclick="switchMonth('maggio',this)">Maggio 2026</button>
+    <button class="tab" onclick="switchMonth('giugno',this)">Giugno 2026</button>
+  </div>
+
+  <!-- MARZO -->
+  <div id="marzo" class="month-panel active">
+
+    <p class="sl">Riepilogo marzo 2026</p>
+    <div class="metrics-grid">
+      <div class="metric card-blue">
+        <div class="m-label">Incasso totale</div>
+        <div class="m-value">€15.538</div>
+        <div class="m-delta green">4 settimane</div>
+      </div>
+      <div class="metric">
+        <div class="m-label">Clienti serviti</div>
+        <div class="m-value">288</div>
+        <div class="m-delta" style="color:var(--sk-gray)">72/sett. in media</div>
+      </div>
+      <div class="metric">
+        <div class="m-label">Scontrino medio</div>
+        <div class="m-value">€53,9</div>
+        <div class="m-delta amber">obiettivo €70</div>
+      </div>
+      <div class="metric">
+        <div class="m-label">Vendita prodotti</div>
+        <div class="m-value">—</div>
+        <div class="m-delta red">non tracciato</div>
+      </div>
+    </div>
+
+    <p class="sl">Performance operatrici — marzo</p>
+    <div class="op-grid">
+      <div class="op-card">
+        <div class="op-nome">Alessia</div>
+        <div class="op-turno">Mattina · 6 ore/g</div>
+        <div class="op-incasso">—</div>
+        <div class="op-clienti">dati da inserire</div>
+      </div>
+      <div class="op-card">
+        <div class="op-nome">Dieletta</div>
+        <div class="op-turno">Mezza giornata · 6 ore/g</div>
+        <div class="op-incasso">—</div>
+        <div class="op-clienti">dati da inserire</div>
+      </div>
+      <div class="op-card">
+        <div class="op-nome">Giusy</div>
+        <div class="op-turno">6 ore/g</div>
+        <div class="op-incasso">—</div>
+        <div class="op-clienti">dati da inserire</div>
+      </div>
+      <div class="op-card">
+        <div class="op-nome">Monica</div>
+        <div class="op-turno">Pomeriggio · 6 ore/g</div>
+        <div class="op-incasso">—</div>
+        <div class="op-clienti">dati da inserire</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card card-blue">
+        <p class="sl">Dettaglio settimanale — marzo</p>
+        <table>
+          <thead><tr><th>Settimana</th><th>Clienti</th><th class="num">Incasso</th><th class="num">Scontrino</th></tr></thead>
+          <tbody>
+            <tr><td>Sett. 1 (2–7 mar)</td><td>72</td><td class="num">€3.884</td><td class="num amber">€53,9</td></tr>
+            <tr><td>Sett. 2 (9–14 mar)</td><td>—</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr><td>Sett. 3 (16–21 mar)</td><td>—</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr><td>Sett. 4 (23–28 mar)</td><td>—</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr class="total"><td>Totale marzo</td><td>72+</td><td class="num">€3.884+</td><td class="num amber">€53,9</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <p class="sl">Alert marzo</p>
+        <ul class="alert-list">
+          <li class="alert-item warn"><div class="dot dot-warn"></div><div class="alert-text"><strong>Scontrino basso</strong> — €53,9 con 72 clienti/sett. Upselling urgente.</div></li>
+          <li class="alert-item danger"><div class="dot dot-red"></div><div class="alert-text"><strong>Prodotti non tracciati</strong> — aggiungere colonna scheda.</div></li>
+          <li class="alert-item warn"><div class="dot dot-warn"></div><div class="alert-text"><strong>Venerdì domina</strong> — 46% del fatturato in 1 giorno.</div></li>
+          <li class="alert-item info"><div class="dot dot-info"></div><div class="alert-text"><strong>Volume clienti solido</strong> — 72/sett. è una base ottima.</div></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card card-blue">
+      <p class="sl">Obiettivi marzo</p>
+      <div class="ob-row"><div class="ob-label">Incasso mensile (€20.000)</div><div class="ob-bar"><div class="ob-fill" style="width:19%;background:var(--sk-red)"></div></div><div class="ob-val red">19%*</div></div>
+      <div class="ob-row"><div class="ob-label">Scontrino medio (€70)</div><div class="ob-bar"><div class="ob-fill" style="width:77%;background:var(--sk-amber)"></div></div><div class="ob-val amber">77%</div></div>
+      <div class="ob-row" style="margin-bottom:0"><div class="ob-label">Vendita prodotti (€800)</div><div class="ob-bar"><div class="ob-fill" style="width:0%;background:var(--sk-red)"></div></div><div class="ob-val red">—</div></div>
+      <div style="font-size:11px;color:var(--sk-gray);margin-top:8px">* dati parziali — solo settimana 1 disponibile</div>
+    </div>
+
+  </div>
+
+  <!-- APRILE -->
+  <div id="aprile" class="month-panel">
+    <p class="sl">Riepilogo aprile 2026</p>
+    <div class="metrics-grid">
+      <div class="metric card-blue">
+        <div class="m-label">Incasso totale</div>
+        <div class="m-value" style="color:var(--sk-gray)">—</div>
+        <div class="m-delta" style="color:var(--sk-gray)">in corso</div>
+      </div>
+      <div class="metric">
+        <div class="m-label">Clienti serviti</div>
+        <div class="m-value" style="color:var(--sk-gray)">—</div>
+        <div class="m-delta" style="color:var(--sk-gray)">in corso</div>
+      </div>
+      <div class="metric">
+        <div class="m-label">Scontrino medio</div>
+        <div class="m-value" style="color:var(--sk-gray)">—</div>
+        <div class="m-delta amber">obiettivo €70</div>
+      </div>
+      <div class="metric">
+        <div class="m-label">Vendita prodotti</div>
+        <div class="m-value" style="color:var(--sk-gray)">—</div>
+        <div class="m-delta red">inizia a tracciare</div>
+      </div>
+    </div>
     <div class="card">
-      <p class="section-label">Dettaglio giornaliero</p>
+      <p class="sl">Dettaglio settimanale — aprile</p>
       <table>
-        <thead>
-          <tr><th>Giorno</th><th>Clienti</th><th class="num">Totale</th></tr>
-        </thead>
+        <thead><tr><th>Settimana</th><th>Clienti</th><th class="num">Incasso</th><th class="num">Scontrino</th></tr></thead>
         <tbody>
-          <tr><td>Lunedì</td><td>—</td><td class="num">—</td></tr>
-          <tr><td>Martedì</td><td>13</td><td class="num">€513,50</td></tr>
-          <tr><td>Mercoledì</td><td>12</td><td class="num">€541</td></tr>
-          <tr><td>Giovedì</td><td>11</td><td class="num">€642</td></tr>
-          <tr><td>Venerdì</td><td>25</td><td class="num">€1.770</td></tr>
-          <tr><td>Sabato</td><td>11</td><td class="num">€418</td></tr>
-          <tr class="total"><td>Totale</td><td>72</td><td class="num">€3.884,50</td></tr>
+          <tr><td>Sett. 1 (1–5 apr)</td><td>—</td><td class="num">—</td><td class="num">—</td></tr>
+          <tr><td>Sett. 2 (7–12 apr)</td><td>—</td><td class="num">—</td><td class="num">—</td></tr>
+          <tr><td>Sett. 3 (14–19 apr)</td><td>—</td><td class="num">—</td><td class="num">—</td></tr>
+          <tr><td>Sett. 4 (22–26 apr)</td><td>—</td><td class="num">—</td><td class="num">—</td></tr>
+          <tr class="total"><td>Totale aprile</td><td>—</td><td class="num">—</td><td class="num">—</td></tr>
         </tbody>
       </table>
     </div>
-
-    <div class="card">
-      <p class="section-label">Alert della settimana</p>
-      <ul class="alert-list">
-        <li class="alert-item good">
-          <div class="dot dot-good"></div>
-          <div class="alert-text"><strong>Volume clienti elevato</strong> — 72 clienti in 5 giorni. Struttura solida.</div>
-        </li>
-        <li class="alert-item warn">
-          <div class="dot dot-warn"></div>
-          <div class="alert-text"><strong>Venerdì domina</strong> — €1.770 su €3.884 (46%). Equilibrare gli altri giorni.</div>
-        </li>
-        <li class="alert-item warn">
-          <div class="dot dot-warn"></div>
-          <div class="alert-text"><strong>Scontrino basso per il volume</strong> — €53,9 con 72 clienti. Upselling sistematico.</div>
-        </li>
-        <li class="alert-item red" style="background:#FCEBEB">
-          <div class="dot" style="background:#A32D2D"></div>
-          <div class="alert-text"><strong>Prodotti non tracciati</strong> — inserire la colonna nella scheda settimanale.</div>
-        </li>
-      </ul>
+    <div class="card card-blue">
+      <p class="sl">Obiettivi aprile</p>
+      <div class="ob-row"><div class="ob-label">Incasso mensile (€20.000)</div><div class="ob-bar"><div class="ob-fill" style="width:0%;background:var(--sk-blue)"></div></div><div class="ob-val" style="color:var(--sk-gray)">—</div></div>
+      <div class="ob-row"><div class="ob-label">Scontrino medio (€70)</div><div class="ob-bar"><div class="ob-fill" style="width:0%;background:var(--sk-blue)"></div></div><div class="ob-val" style="color:var(--sk-gray)">—</div></div>
+      <div class="ob-row" style="margin-bottom:0"><div class="ob-label">Vendita prodotti (€800)</div><div class="ob-bar"><div class="ob-fill" style="width:0%;background:var(--sk-blue)"></div></div><div class="ob-val" style="color:var(--sk-gray)">—</div></div>
     </div>
   </div>
 
-  <div class="card">
-    <p class="section-label">Obiettivi del mese</p>
-    <div class="ob-row">
-      <div class="ob-label">Incasso mensile (€16.000)</div>
-      <div class="ob-bar"><div class="ob-fill" style="width:24%;background:#1D9E75"></div></div>
-      <div class="ob-val green">24%</div>
-    </div>
-    <div class="ob-row">
-      <div class="ob-label">Scontrino medio (€70)</div>
-      <div class="ob-bar"><div class="ob-fill" style="width:77%;background:#BA7517"></div></div>
-      <div class="ob-val amber">77%</div>
-    </div>
-    <div class="ob-row" style="margin-bottom:0">
-      <div class="ob-label">Vendita prodotti (€500/mese)</div>
-      <div class="ob-bar"><div class="ob-fill" style="width:0%;background:#E24B4A"></div></div>
-      <div class="ob-val red">—</div>
+  <!-- MAGGIO -->
+  <div id="maggio" class="month-panel">
+    <p class="sl">Riepilogo maggio 2026</p>
+    <div class="card" style="text-align:center;padding:2rem;color:var(--sk-gray)">
+      <div style="font-size:32px;margin-bottom:8px">📅</div>
+      <div style="font-size:15px;font-weight:600;margin-bottom:4px">Maggio non ancora iniziato</div>
+      <div style="font-size:13px">I dati appariranno qui non appena inseriti.</div>
     </div>
   </div>
 
-  <div class="card">
-    <div class="note-head">
-      <p class="section-label" style="margin:0">Note del consulente</p>
-      <span>Aggiornato 4 apr 2026</span>
+  <!-- GIUGNO -->
+  <div id="giugno" class="month-panel">
+    <p class="sl">Riepilogo giugno 2026</p>
+    <div class="card" style="text-align:center;padding:2rem;color:var(--sk-gray)">
+      <div style="font-size:32px;margin-bottom:8px">📅</div>
+      <div style="font-size:15px;font-weight:600;margin-bottom:4px">Giugno non ancora iniziato</div>
+      <div style="font-size:13px">I dati appariranno qui non appena inseriti.</div>
     </div>
+  </div>
+
+  <!-- CAPACITA PRODUTTIVA (sempre visibile) -->
+  <div class="card">
+    <p class="sl">Capacità produttiva — 4 operatrici</p>
+    <div class="op-grid" style="margin-bottom:1rem">
+      <div class="met"><div class="ml">Alessia — mattina</div><div class="mv blue">4–5</div><div class="m-delta" style="font-size:12px;color:var(--sk-gray)">slot/giorno · 6 ore</div></div>
+      <div class="met"><div class="ml">Dieletta — mezza g.</div><div class="mv blue">4–5</div><div class="m-delta" style="font-size:12px;color:var(--sk-gray)">slot/giorno · 6 ore</div></div>
+      <div class="met"><div class="ml">Giusy</div><div class="mv blue">4–5</div><div class="m-delta" style="font-size:12px;color:var(--sk-gray)">slot/giorno · 6 ore</div></div>
+      <div class="met"><div class="ml">Monica — pomeriggio</div><div class="mv blue">4–5</div><div class="m-delta" style="font-size:12px;color:var(--sk-gray)">slot/giorno · 6 ore</div></div>
+    </div>
+    <div class="grid3" style="margin-bottom:1rem">
+      <div class="met"><div class="ml">Slot totali/giorno</div><div class="mv blue">16–20</div><div class="m-delta" style="font-size:12px;color:var(--sk-gray)">4 operatrici × 4-5 slot</div></div>
+      <div class="met"><div class="ml">Clienti max/settimana</div><div class="mv blue">80–100</div><div class="m-delta" style="font-size:12px;color:var(--sk-gray)">4 giorni + sab. mezza</div></div>
+      <div class="met"><div class="ml">Potenziale mensile</div><div class="mv green">€22.400</div><div class="m-delta" style="font-size:12px;color:var(--sk-gray)">a scontrino €70</div></div>
+    </div>
+    <div class="cap-row"><div class="cap-label">Occupazione attuale (72/90 slot)</div><div class="cap-bar"><div class="cap-fill" style="width:80%;background:var(--sk-blue)"></div></div><div class="cap-val blue">80%</div></div>
+    <div class="cap-row"><div class="cap-label">Incasso su potenziale</div><div class="cap-bar"><div class="cap-fill" style="width:60%;background:var(--sk-amber)"></div></div><div class="cap-val amber">60%</div></div>
+    <div class="cap-row" style="margin-bottom:0"><div class="cap-label">Gap scontrino (€53,9 vs €70)</div><div class="cap-bar"><div class="cap-fill" style="width:77%;background:var(--sk-amber)"></div></div><div class="cap-val amber">-€16</div></div>
+  </div>
+
+  <!-- FUNNEL MARKETING -->
+  <div class="card card-blue">
+    <p class="sl">Funnel marketing</p>
+    <div class="funnel">
+      <div class="fstep f1"><div class="fstep-num">0</div><div class="fstep-label">Nuovi lead</div><div class="fstep-sub">Instagram · WhatsApp</div></div>
+      <div class="fstep f2"><div class="fstep-num">0</div><div class="fstep-label">Consulenze</div><div class="fstep-sub">— dei lead</div></div>
+      <div class="fstep f3"><div class="fstep-num">0</div><div class="fstep-label">Pacchetti chiusi</div><div class="fstep-sub">— delle cons.</div></div>
+      <div class="fstep f4"><div class="fstep-num">€0</div><div class="fstep-label">Valore generato</div><div class="fstep-sub">€0 medio/pacco</div></div>
+    </div>
+    <div class="grid3">
+      <div class="met"><div class="ml">Lead → consulenza</div><div class="mv" style="color:var(--sk-gray)">—</div><div class="m-delta" style="font-size:12px;color:var(--sk-gray)">obiettivo 70%</div></div>
+      <div class="met"><div class="ml">Cons. → pacchetto</div><div class="mv" style="color:var(--sk-gray)">—</div><div class="m-delta" style="font-size:12px;color:var(--sk-gray)">obiettivo 60%</div></div>
+      <div class="met"><div class="ml">Conversione totale</div><div class="mv" style="color:var(--sk-gray)">—</div><div class="m-delta" style="font-size:12px;color:var(--sk-gray)">lead → vendita</div></div>
+    </div>
+  </div>
+
+  <!-- NUOVI LEAD -->
+  <div class="card">
+    <div style="display:flex;align-items:center;margin-bottom:12px">
+      <p class="sl" style="margin:0">Nuovi lead</p>
+      <span class="coming">Instagram · WhatsApp · presto</span>
+    </div>
+    <div style="text-align:center;padding:1.5rem;color:var(--sk-gray);font-size:13px;background:var(--sk-gray-light);border-radius:8px">
+      Nessun lead ancora — inizia le azioni di marketing questa settimana.
+    </div>
+  </div>
+
+  <!-- NOTE CONSULENTE -->
+  <div class="card card-blue">
+    <div class="note-head"><p class="sl" style="margin:0">Note del consulente</p><span>Aggiornato apr 2026</span></div>
     <div class="note-box">
-      Il Tempio di Fidia ha un volume clienti importante — 72 persone in 5 giorni è un risultato solido. Il punto critico è lo scontrino medio: con questo flusso di clienti, alzarlo di €10 significa quasi €720 in più a settimana. La priorità è introdurre una proposta sistematica su trattamenti e prodotti per ogni cliente. Iniziamo tracciando i prodotti sulla scheda settimanale — è il primo passo.
+      Il Tempio di Fidia ha una struttura solida — 4 operatrici e un volume clienti importante. Il focus immediato è duplice: alzare lo scontrino medio da €53,9 a €70 attraverso proposte sistematiche su trattamenti avanzati e pacchetti, e iniziare a tracciare la vendita prodotti che oggi non è visibile. Con 72+ clienti/settimana ogni €10 in più di scontrino vale €720/settimana in più — €2.880 al mese. Questo è l'obiettivo del trimestre aprile–giugno.
     </div>
   </div>
 
   <div class="footer">
+    <div class="logo">SKINEM</div>
     <span>Consulenza <strong>Enzo Evandri</strong> — Dashboard riservata al centro</span>
-    <span>Aggiornato 4 apr 2026</span>
+    <span>Aggiornato apr 2026</span>
   </div>
 
 </div>
+
+<script>
+function switchMonth(id, btn){
+  document.querySelectorAll('.month-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
 </body>
 </html>
