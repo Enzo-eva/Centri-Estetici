@@ -7,61 +7,41 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --sk-blue:#00b3e6;
-  --sk-blue-light:#e0f6fd;
-  --sk-blue-mid:#7fd9f3;
-  --sk-blue-dark:#0080a6;
-  --sk-gray:#5b6770;
-  --sk-gray-light:#eef0f1;
-  --sk-gray-mid:#c2c8cc;
-  --sk-gray-dark:#3a4349;
-  --sk-bg:#f4f7f8;
-  --sk-white:#ffffff;
-  --sk-green:#2db87a;
-  --sk-green-light:#e3f7ee;
-  --sk-amber:#e8950a;
-  --sk-amber-light:#fef3dc;
-  --sk-red:#d94040;
-  --sk-red-light:#fceaea;
+  --sk-blue:#00b3e6;--sk-blue-light:#e0f6fd;--sk-blue-mid:#7fd9f3;--sk-blue-dark:#0080a6;
+  --sk-gray:#5b6770;--sk-gray-light:#eef0f1;--sk-gray-mid:#c2c8cc;--sk-gray-dark:#3a4349;
+  --sk-bg:#f4f7f8;--sk-white:#ffffff;
+  --sk-green:#2db87a;--sk-green-light:#e3f7ee;
+  --sk-amber:#e8950a;--sk-amber-light:#fef3dc;
+  --sk-red:#d94040;--sk-red-light:#fceaea;
 }
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--sk-bg);color:var(--sk-gray-dark);padding:1.5rem}
 .container{max-width:880px;margin:0 auto}
-
 .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:8px;background:var(--sk-white);border-radius:14px;padding:1.25rem 1.5rem;border:1px solid var(--sk-gray-mid)}
 .header-left{display:flex;align-items:center;gap:14px}
 .avatar{width:44px;height:44px;border-radius:50%;background:var(--sk-blue-light);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--sk-blue-dark)}
 .centro-name{font-size:20px;font-weight:700;color:var(--sk-gray-dark)}
 .centro-sub{font-size:13px;color:var(--sk-gray)}
-.skinem-brand{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--sk-blue);letter-spacing:.03em}
+.skinem-brand{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--sk-blue);letter-spacing:.03em}
 .sk-dot{width:8px;height:8px;border-radius:50%;background:var(--sk-blue)}
 .badge{font-size:11px;padding:4px 12px;border-radius:99px;font-weight:600}
 .badge-amber{background:var(--sk-amber-light);color:var(--sk-amber)}
 .badge-green{background:var(--sk-green-light);color:var(--sk-green)}
-.badge-blue{background:var(--sk-blue-light);color:var(--sk-blue-dark)}
-
 .sl{font-size:11px;font-weight:700;color:var(--sk-gray);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
-
 .metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem}
 .metric{background:var(--sk-white);border-radius:10px;padding:.9rem 1rem;border:1px solid var(--sk-gray-mid)}
-.metric .accent{border-top:3px solid var(--sk-blue);border-radius:10px 10px 0 0;margin:-0.9rem -1rem 0.75rem;padding:.4rem 1rem;background:var(--sk-blue-light)}
+.card-blue{border-top:3px solid var(--sk-blue)}
 .m-label{font-size:12px;color:var(--sk-gray);margin-bottom:4px}
 .m-value{font-size:22px;font-weight:700;line-height:1.2;color:var(--sk-gray-dark)}
 .m-delta{font-size:12px;margin-top:3px}
 .green{color:var(--sk-green)}.amber{color:var(--sk-amber)}.red{color:var(--sk-red)}.blue{color:var(--sk-blue-dark)}
-
 .card{background:var(--sk-white);border:1px solid var(--sk-gray-mid);border-radius:12px;padding:1.25rem;margin-bottom:1rem}
-.card-blue{border-top:3px solid var(--sk-blue)}
 .two-col{display:grid;grid-template-columns:1.4fr 1fr;gap:1rem;margin-bottom:1rem}
-
 table{width:100%;font-size:13px;border-collapse:collapse}
 th{font-size:11px;font-weight:700;color:var(--sk-gray);text-align:left;padding:4px 8px 8px;border-bottom:2px solid var(--sk-blue-light)}
 td{padding:7px 8px;border-bottom:1px solid var(--sk-gray-light);color:var(--sk-gray-dark)}
 tr:last-child td{border-bottom:none}
 td.num{text-align:right;font-variant-numeric:tabular-nums}
 tr.total td{font-weight:700;border-top:2px solid var(--sk-blue-light);background:var(--sk-blue-light)}
-tr:hover td{background:var(--sk-bg)}
-tr.total:hover td{background:var(--sk-blue-light)}
-
 .alert-list{list-style:none;display:flex;flex-direction:column;gap:8px}
 .alert-item{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:8px}
 .warn{background:var(--sk-amber-light)}.good{background:var(--sk-green-light)}.info{background:var(--sk-blue-light)}.danger{background:var(--sk-red-light)}
@@ -69,59 +49,43 @@ tr.total:hover td{background:var(--sk-blue-light)}
 .dot-warn{background:var(--sk-amber)}.dot-good{background:var(--sk-green)}.dot-info{background:var(--sk-blue)}.dot-red{background:var(--sk-red)}
 .alert-text{font-size:13px;line-height:1.5;color:var(--sk-gray-dark)}
 .alert-text strong{font-weight:600}
-
 .ob-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .ob-label{font-size:13px;flex:1;color:var(--sk-gray-dark)}
 .ob-bar{flex:1.5;height:8px;background:var(--sk-gray-light);border-radius:99px;overflow:hidden}
 .ob-fill{height:100%;border-radius:99px}
 .ob-val{font-size:13px;font-weight:700;min-width:36px;text-align:right}
-
 .note-box{background:var(--sk-blue-light);border-left:3px solid var(--sk-blue);border-radius:0 8px 8px 0;padding:1rem;font-size:13px;line-height:1.7;color:var(--sk-gray-dark)}
 .note-head{display:flex;justify-content:space-between;margin-bottom:8px;align-items:center}
 .note-head span{font-size:12px;color:var(--sk-gray)}
-
 .funnel{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1rem}
 .fstep{border-radius:8px;padding:1rem;text-align:center}
 .fstep-num{font-size:24px;font-weight:700;line-height:1}
 .fstep-label{font-size:11px;font-weight:700;margin-top:4px}
 .fstep-sub{font-size:10px;margin-top:2px;opacity:.75}
-.f-blue{background:var(--sk-blue-light);color:var(--sk-blue-dark)}
-.f-blue2{background:#b3eaf7;color:var(--sk-blue-dark)}
-.f-blue3{background:#7fd9f3;color:var(--sk-blue-dark)}
-.f-blue4{background:var(--sk-blue);color:#fff}
-
+.f1{background:var(--sk-blue-light);color:var(--sk-blue-dark)}
+.f2{background:#b3eaf7;color:var(--sk-blue-dark)}
+.f3{background:var(--sk-blue-mid);color:var(--sk-blue-dark)}
+.f4{background:var(--sk-blue);color:#fff}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem}
 .met{background:var(--sk-gray-light);border-radius:8px;padding:.85rem 1rem}
 .ml{font-size:12px;color:var(--sk-gray);margin-bottom:4px}
-.mv{font-size:20px;font-weight:700;line-height:1.2;color:var(--sk-gray-dark)}
-
+.mv{font-size:20px;font-weight:700;color:var(--sk-gray-dark)}
 .cap-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .cap-label{font-size:13px;flex:1.5;color:var(--sk-gray-dark)}
 .cap-bar{flex:2;height:8px;background:var(--sk-gray-light);border-radius:99px;overflow:hidden}
 .cap-fill{height:100%;border-radius:99px}
 .cap-val{font-size:13px;font-weight:700;min-width:40px;text-align:right}
-
-.lead-list{display:flex;flex-direction:column;gap:8px}
-.lead-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:8px;background:var(--sk-gray-light)}
-.lead-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
-.la-ig{background:#e0d5f7;color:#4a2d9e}
-.la-wa{background:var(--sk-green-light);color:#1a7a4a}
-.la-gg{background:var(--sk-blue-light);color:var(--sk-blue-dark)}
-.lead-info{flex:1}
-.lead-nome{font-size:13px;font-weight:600;color:var(--sk-gray-dark)}
-.lead-fonte{font-size:11px;color:var(--sk-gray);margin-top:1px}
-.lead-status{font-size:11px;padding:2px 8px;border-radius:99px;font-weight:600}
-.st-nuovo{background:var(--sk-blue-light);color:var(--sk-blue-dark)}
-.st-contattato{background:var(--sk-amber-light);color:var(--sk-amber)}
-.st-consulenza{background:#e0d5f7;color:#4a2d9e}
-.st-chiuso{background:var(--sk-green-light);color:var(--sk-green)}
-.st-perso{background:var(--sk-gray-light);color:var(--sk-gray)}
 .coming{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:3px 10px;border-radius:99px;background:var(--sk-blue-light);color:var(--sk-blue-dark);font-weight:600;margin-left:8px}
-
+.trend{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;padding:2px 8px;border-radius:99px;margin-left:6px}
+.trend-up{background:var(--sk-green-light);color:var(--sk-green)}
+.trend-dn{background:var(--sk-red-light);color:var(--sk-red)}
 .footer{display:flex;justify-content:space-between;align-items:center;padding-top:1rem;border-top:2px solid var(--sk-blue-light);margin-top:.5rem;font-size:12px;color:var(--sk-gray)}
 .footer strong{color:var(--sk-blue-dark)}
 .footer .logo{font-size:13px;font-weight:700;color:var(--sk-blue);letter-spacing:.05em}
-
+.tab-row{display:flex;gap:6px;margin-bottom:1.25rem;flex-wrap:wrap}
+.tab{font-size:13px;padding:6px 16px;border-radius:99px;border:1.5px solid var(--sk-gray-mid);background:transparent;color:var(--sk-gray);cursor:pointer;font-weight:500}
+.tab.active{background:var(--sk-blue);color:#fff;border-color:var(--sk-blue)}
+.week-panel{display:none}.week-panel.active{display:block}
 @media(max-width:600px){.metrics-grid{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}.funnel{grid-template-columns:repeat(2,1fr)}.grid3{grid-template-columns:repeat(3,1fr)}}
 </style>
 </head>
@@ -133,40 +97,46 @@ tr.total:hover td{background:var(--sk-blue-light)}
       <div class="avatar">SA</div>
       <div>
         <div class="centro-name">Centro Sartarelli</div>
-        <div class="centro-sub">Settimana 7–12 aprile 2025</div>
+        <div class="centro-sub">Aprile 2025 — 1 operatrice</div>
       </div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
       <div class="skinem-brand"><span class="sk-dot"></span>SKINEM</div>
-      <span class="badge badge-amber">In crescita</span>
+      <span class="badge badge-green">In crescita</span>
     </div>
   </div>
 
-  <p class="sl">Riepilogo settimana</p>
-  <div class="metrics-grid">
-    <div class="metric card-blue">
-      <div class="m-label">Incasso totale</div>
-      <div class="m-value">€1.518</div>
-      <div class="m-delta green">25 clienti serviti</div>
-    </div>
-    <div class="metric">
-      <div class="m-label">Clienti serviti</div>
-      <div class="m-value">25</div>
-      <div class="m-delta" style="color:var(--sk-gray)">35 ore lavorate</div>
-    </div>
-    <div class="metric">
-      <div class="m-label">Scontrino medio</div>
-      <div class="m-value">€60,7</div>
-      <div class="m-delta amber">obiettivo €75</div>
-    </div>
-    <div class="metric">
-      <div class="m-label">Vendita prodotti</div>
-      <div class="m-value">€58</div>
-      <div class="m-delta red">da migliorare</div>
-    </div>
+  <!-- TAB SETTIMANE -->
+  <div class="tab-row">
+    <button class="tab" onclick="switchWeek('s1',this)">Sett. 1 — 7/12 apr</button>
+    <button class="tab active" onclick="switchWeek('s2',this)">Sett. 2 — 14/18 apr</button>
   </div>
 
-  <div class="two-col">
+  <!-- SETTIMANA 1 -->
+  <div id="s1" class="week-panel">
+    <p class="sl">Riepilogo settimana 1 — 7/12 aprile</p>
+    <div class="metrics-grid">
+      <div class="metric card-blue">
+        <div class="m-label">Incasso totale</div>
+        <div class="m-value">€1.518</div>
+        <div class="m-delta green">25 clienti</div>
+      </div>
+      <div class="metric">
+        <div class="m-label">Clienti serviti</div>
+        <div class="m-value">25</div>
+        <div class="m-delta" style="color:var(--sk-gray)">35 ore lavorate</div>
+      </div>
+      <div class="metric">
+        <div class="m-label">Scontrino medio</div>
+        <div class="m-value">€60,7</div>
+        <div class="m-delta amber">obiettivo €75</div>
+      </div>
+      <div class="metric">
+        <div class="m-label">Vendita prodotti</div>
+        <div class="m-value">€58</div>
+        <div class="m-delta red">solo venerdì</div>
+      </div>
+    </div>
     <div class="card card-blue">
       <p class="sl">Dettaglio giornaliero</p>
       <table>
@@ -182,43 +152,103 @@ tr.total:hover td{background:var(--sk-blue-light)}
         </tbody>
       </table>
     </div>
+  </div>
+
+  <!-- SETTIMANA 2 -->
+  <div id="s2" class="week-panel active">
+    <p class="sl">Riepilogo settimana 2 — 14/18 aprile</p>
+    <div class="metrics-grid">
+      <div class="metric card-blue">
+        <div class="m-label">Incasso totale</div>
+        <div class="m-value">€1.650</div>
+        <div class="m-delta green">+€132 vs sett. prec. <span class="trend trend-up">+9%</span></div>
+      </div>
+      <div class="metric">
+        <div class="m-label">Clienti serviti</div>
+        <div class="m-value">26</div>
+        <div class="m-delta green">+1 vs sett. prec.</div>
+      </div>
+      <div class="metric">
+        <div class="m-label">Scontrino medio</div>
+        <div class="m-value">€63,5</div>
+        <div class="m-delta green">+€2,8 vs sett. prec.</div>
+      </div>
+      <div class="metric">
+        <div class="m-label">Vendita prodotti</div>
+        <div class="m-value">—</div>
+        <div class="m-delta red">da tracciare</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card card-blue">
+        <p class="sl">Dettaglio giornaliero</p>
+        <table>
+          <thead><tr><th>Giorno</th><th>Clienti</th><th>Ore</th><th class="num">Incasso</th></tr></thead>
+          <tbody>
+            <tr><td>Lunedì</td><td>—</td><td>—</td><td class="num">—</td></tr>
+            <tr><td>Martedì</td><td>5</td><td>8,30</td><td class="num green">€940</td></tr>
+            <tr><td>Mercoledì</td><td>4</td><td>7</td><td class="num">€180</td></tr>
+            <tr><td>Giovedì</td><td>5</td><td>8</td><td class="num">€165</td></tr>
+            <tr><td>Venerdì</td><td>5</td><td>7</td><td class="num">€175</td></tr>
+            <tr><td>Sabato</td><td>6</td><td>8</td><td class="num">€190</td></tr>
+            <tr class="total"><td>Totale</td><td>26</td><td>38,30</td><td class="num">€1.650</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <p class="sl">Alert settimana</p>
+        <ul class="alert-list">
+          <li class="alert-item good"><div class="dot dot-good"></div><div class="alert-text"><strong>Martedì record</strong> — €940 in una giornata. Capire e replicare.</div></li>
+          <li class="alert-item good"><div class="dot dot-good"></div><div class="alert-text"><strong>Scontrino in crescita</strong> — da €60,7 a €63,5. Tendenza positiva.</div></li>
+          <li class="alert-item warn"><div class="dot dot-warn"></div><div class="alert-text"><strong>Mercoledì e giovedì bassi</strong> — €180/€165 con 4-5 clienti. Ottimizzare.</div></li>
+          <li class="alert-item danger"><div class="dot dot-red"></div><div class="alert-text"><strong>Prodotti ancora non tracciati</strong> — iniziare subito.</div></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- CONFRONTO SETTIMANE -->
     <div class="card">
-      <p class="sl">Alert della settimana</p>
-      <ul class="alert-list">
-        <li class="alert-item warn"><div class="dot dot-warn"></div><div class="alert-text"><strong>Prodotti quasi assenti</strong> — solo €58 su €1.518. Leva immediata.</div></li>
-        <li class="alert-item warn"><div class="dot dot-warn"></div><div class="alert-text"><strong>Scontrino sotto target</strong> — €60,7 vs obiettivo €75.</div></li>
-        <li class="alert-item good"><div class="dot dot-good"></div><div class="alert-text"><strong>Venerdì eccellente</strong> — €828 in 8 ore. Replicare.</div></li>
-        <li class="alert-item info"><div class="dot dot-info"></div><div class="alert-text"><strong>Lunedì non lavorato</strong> — slot potenziale da valutare.</div></li>
-      </ul>
+      <p class="sl">Confronto settimane aprile</p>
+      <table>
+        <thead><tr><th>Settimana</th><th>Clienti</th><th class="num">Incasso</th><th class="num">Scontrino</th><th class="num">Trend</th></tr></thead>
+        <tbody>
+          <tr><td>Sett. 1 — 7/12 apr</td><td>25</td><td class="num">€1.518</td><td class="num">€60,7</td><td class="num" style="color:var(--sk-gray)">—</td></tr>
+          <tr><td>Sett. 2 — 14/18 apr</td><td>26</td><td class="num green">€1.650</td><td class="num green">€63,5</td><td class="num green">+9%</td></tr>
+          <tr class="total"><td>Totale aprile (parz.)</td><td>51</td><td class="num">€3.168</td><td class="num amber">€62,1</td><td class="num"></td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
+  <!-- OBIETTIVI MESE -->
   <div class="card card-blue">
-    <p class="sl">Obiettivi del mese</p>
-    <div class="ob-row"><div class="ob-label">Incasso mensile (€6.000)</div><div class="ob-bar"><div class="ob-fill" style="width:25%;background:var(--sk-green)"></div></div><div class="ob-val green">25%</div></div>
-    <div class="ob-row"><div class="ob-label">Scontrino medio (€75)</div><div class="ob-bar"><div class="ob-fill" style="width:81%;background:var(--sk-amber)"></div></div><div class="ob-val amber">81%</div></div>
+    <p class="sl">Obiettivi aprile</p>
+    <div class="ob-row"><div class="ob-label">Incasso mensile (€6.000)</div><div class="ob-bar"><div class="ob-fill" style="width:53%;background:var(--sk-amber)"></div></div><div class="ob-val amber">53%</div></div>
+    <div class="ob-row"><div class="ob-label">Scontrino medio (€75)</div><div class="ob-bar"><div class="ob-fill" style="width:83%;background:var(--sk-amber)"></div></div><div class="ob-val amber">83%</div></div>
     <div class="ob-row" style="margin-bottom:0"><div class="ob-label">Vendita prodotti (€300)</div><div class="ob-bar"><div class="ob-fill" style="width:19%;background:var(--sk-red)"></div></div><div class="ob-val red">19%</div></div>
   </div>
 
+  <!-- CAPACITA PRODUTTIVA -->
   <div class="card">
     <p class="sl">Capacità produttiva — 1 operatrice</p>
     <div class="grid3" style="margin-bottom:1rem">
       <div class="met"><div class="ml">Slot disponibili/giorno</div><div class="mv blue">6</div><div class="m-delta" style="font-size:12px;color:var(--sk-gray)">8 ore · 80 min/tratt.</div></div>
       <div class="met"><div class="ml">Clienti max/settimana</div><div class="mv blue">30</div><div class="m-delta" style="font-size:12px;color:var(--sk-gray)">5 giorni × 6 slot</div></div>
-      <div class="met"><div class="ml">Occupazione attuale</div><div class="mv amber">83%</div><div class="m-delta" style="font-size:12px;color:var(--sk-gray)">25 su 30 slot</div></div>
+      <div class="met"><div class="ml">Occupazione sett. 2</div><div class="mv amber">87%</div><div class="m-delta" style="font-size:12px;color:var(--sk-gray)">26 su 30 slot</div></div>
     </div>
-    <div class="cap-row"><div class="cap-label">Clienti serviti (25/30)</div><div class="cap-bar"><div class="cap-fill" style="width:83%;background:var(--sk-blue)"></div></div><div class="cap-val blue">83%</div></div>
-    <div class="cap-row"><div class="cap-label">Incasso su potenziale</div><div class="cap-bar"><div class="cap-fill" style="width:56%;background:var(--sk-amber)"></div></div><div class="cap-val amber">56%</div></div>
-    <div class="cap-row" style="margin-bottom:0"><div class="cap-label">Prodotti su potenziale</div><div class="cap-bar"><div class="cap-fill" style="width:6%;background:var(--sk-red)"></div></div><div class="cap-val red">6%</div></div>
+    <div class="cap-row"><div class="cap-label">Clienti serviti (26/30)</div><div class="cap-bar"><div class="cap-fill" style="width:87%;background:var(--sk-blue)"></div></div><div class="cap-val blue">87%</div></div>
+    <div class="cap-row" style="margin-bottom:0"><div class="cap-label">Incasso su potenziale</div><div class="cap-bar"><div class="cap-fill" style="width:61%;background:var(--sk-amber)"></div></div><div class="cap-val amber">61%</div></div>
   </div>
 
+  <!-- FUNNEL MARKETING -->
   <div class="card card-blue">
     <p class="sl">Funnel marketing</p>
     <div class="funnel">
-      <div class="fstep f-blue"><div class="fstep-num">0</div><div class="fstep-label">Nuovi lead</div><div class="fstep-sub">Instagram · WhatsApp</div></div>
-      <div class="fstep f-blue2"><div class="fstep-num">0</div><div class="fstep-label">Consulenze</div><div class="fstep-sub">— dei lead</div></div>
-      <div class="fstep f-blue3"><div class="fstep-num">0</div><div class="fstep-label">Pacchetti chiusi</div><div class="fstep-sub">— delle cons.</div></div>
-      <div class="fstep f-blue4"><div class="fstep-num">€0</div><div class="fstep-label">Valore generato</div><div class="fstep-sub">€0 medio/pacco</div></div>
+      <div class="fstep f1"><div class="fstep-num">0</div><div class="fstep-label">Nuovi lead</div><div class="fstep-sub">Instagram · WhatsApp</div></div>
+      <div class="fstep f2"><div class="fstep-num">0</div><div class="fstep-label">Consulenze</div><div class="fstep-sub">— dei lead</div></div>
+      <div class="fstep f3"><div class="fstep-num">0</div><div class="fstep-label">Pacchetti chiusi</div><div class="fstep-sub">— delle cons.</div></div>
+      <div class="fstep f4"><div class="fstep-num">€0</div><div class="fstep-label">Valore generato</div><div class="fstep-sub">€0 medio/pacco</div></div>
     </div>
     <div class="grid3">
       <div class="met"><div class="ml">Lead → consulenza</div><div class="mv" style="color:var(--sk-gray)">—</div><div class="m-delta" style="font-size:12px;color:var(--sk-gray)">obiettivo 70%</div></div>
@@ -227,31 +257,39 @@ tr.total:hover td{background:var(--sk-blue-light)}
     </div>
   </div>
 
+  <!-- NUOVI LEAD -->
   <div class="card">
     <div style="display:flex;align-items:center;margin-bottom:12px">
-      <p class="sl" style="margin:0">Nuovi lead questa settimana</p>
+      <p class="sl" style="margin:0">Nuovi lead</p>
       <span class="coming">Instagram · WhatsApp · presto</span>
     </div>
-    <div class="lead-list">
-      <div style="text-align:center;padding:1.5rem;color:var(--sk-gray);font-size:13px;background:var(--sk-gray-light);border-radius:8px">
-        Nessun lead ancora — inizia le azioni di marketing questa settimana.
-      </div>
+    <div style="text-align:center;padding:1.5rem;color:var(--sk-gray);font-size:13px;background:var(--sk-gray-light);border-radius:8px">
+      Nessun lead ancora — inizia le azioni di marketing questa settimana.
     </div>
   </div>
 
+  <!-- NOTE CONSULENTE -->
   <div class="card card-blue">
-    <div class="note-head"><p class="sl" style="margin:0">Note del consulente</p><span>Aggiornato 14 apr 2025</span></div>
+    <div class="note-head"><p class="sl" style="margin:0">Note del consulente</p><span>Aggiornato 18 apr 2025</span></div>
     <div class="note-box">
-      Questa settimana il Centro Sartarelli ha mostrato un segnale forte: il picco di venerdì dimostra che quando si propongono trattamenti completi il risultato arriva. Il focus per la prossima settimana è replicare questa energia ogni giorno — inizia ogni appuntamento con una domanda di analisi e proponi almeno un prodotto a ogni cliente. Obiettivo concreto: €100 di prodotti sabato prossimo. Sul fronte marketing: questa settimana iniziamo a generare i primi lead. Ogni contatto va registrato qui.
+      Seconda settimana in crescita — €1.650 con scontrino a €63,5. Il martedì con €940 è un segnale importante: quando l'agenda è piena e i trattamenti sono completi i numeri arrivano. Ora il focus è capire cosa ha funzionato martedì e replicarlo ogni giorno. La priorità immediata rimane la vendita prodotti — non ancora tracciata. Obiettivo settimana prossima: registrare ogni vendita prodotto e raggiungere €100.
     </div>
   </div>
 
   <div class="footer">
     <div class="logo">SKINEM</div>
     <span>Consulenza <strong>Enzo Evandri</strong> — Dashboard riservata al centro</span>
-    <span>Aggiornato 14 apr 2025</span>
+    <span>Aggiornato 18 apr 2025</span>
   </div>
 
 </div>
+<script>
+function switchWeek(id,btn){
+  document.querySelectorAll('.week-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
 </body>
 </html>
