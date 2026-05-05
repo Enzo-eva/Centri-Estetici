@@ -25,7 +25,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .sk-dot{width:8px;height:8px;border-radius:50%;background:var(--sk-blue)}
 .badge{font-size:11px;padding:4px 12px;border-radius:99px;font-weight:600}
 .badge-amber{background:var(--sk-amber-light);color:var(--sk-amber)}
-.badge-green{background:var(--sk-green-light);color:var(--sk-green)}
 .sl{font-size:11px;font-weight:700;color:var(--sk-gray);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
 .metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem}
 .metric{background:var(--sk-white);border-radius:10px;padding:.9rem 1rem;border:1px solid var(--sk-gray-mid)}
@@ -89,20 +88,19 @@ tr.total td{font-weight:700;border-top:2px solid var(--sk-blue-light);background
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
       <div class="skinem-brand"><span class="sk-dot"></span>SKINEM</div>
-      <span class="badge badge-amber" id="status-badge">In crescita</span>
+      <span class="badge badge-amber">In crescita</span>
     </div>
   </div>
 
-  <div class="tab-row" id="tab-mesi">
-    <button class="tab active" onclick="caricaMese('Aprile 2026',this)">Aprile 2026</button>
-    <button class="tab" onclick="caricaMese('Maggio 2026',this)">Maggio 2026</button>
-    <button class="tab" onclick="caricaMese('Giugno 2026',this)">Giugno 2026</button>
+  <div class="tab-row">
+    <button class="tab active" onclick="caricaMese('aprile',this)">Aprile 2026</button>
+    <button class="tab" onclick="caricaMese('maggio',this)">Maggio 2026</button>
+    <button class="tab" onclick="caricaMese('giugno',this)">Giugno 2026</button>
   </div>
 
   <div id="aggiornato" class="aggiornato"></div>
   <div id="contenuto"><div class="loading"><div class="spinner"></div><br>Caricamento dati...</div></div>
 
-  <!-- CAPACITA PRODUTTIVA -->
   <div class="card">
     <p class="sl">Capacità produttiva — 4 operatrici</p>
     <div class="grid3">
@@ -112,7 +110,6 @@ tr.total td{font-weight:700;border-top:2px solid var(--sk-blue-light);background
     </div>
   </div>
 
-  <!-- FUNNEL -->
   <div class="card card-blue">
     <p class="sl">Funnel marketing</p>
     <div class="funnel">
@@ -123,10 +120,9 @@ tr.total td{font-weight:700;border-top:2px solid var(--sk-blue-light);background
     </div>
   </div>
 
-  <!-- NOTE -->
   <div class="card card-blue">
-    <div class="note-head"><p class="sl" style="margin:0">Note del consulente</p><span id="data-nota">—</span></div>
-    <div class="note-box" id="testo-nota">Il Tempio di Fidia ha una struttura solida — 4 operatrici e un volume clienti importante. Il focus immediato è alzare lo scontrino medio da €44 a €70 attraverso proposte sistematiche su trattamenti avanzati e pacchetti. Con 70+ clienti/settimana ogni €10 in più di scontrino vale €700/settimana — €2.800 al mese.</div>
+    <div class="note-head"><p class="sl" style="margin:0">Note del consulente</p><span>Aggiornato mag 2026</span></div>
+    <div class="note-box">Il Tempio di Fidia ha una struttura solida — 4 operatrici e un volume clienti importante. Il focus immediato è alzare lo scontrino medio verso €70 attraverso proposte sistematiche su trattamenti avanzati e pacchetti. Con 70+ clienti/settimana ogni €10 in più di scontrino vale €700/settimana — €2.800 al mese.</div>
   </div>
 
   <div class="footer">
@@ -137,156 +133,138 @@ tr.total td{font-weight:700;border-top:2px solid var(--sk-blue-light);background
 </div>
 
 <script>
-const API = 'https://script.google.com/macros/s/AKfycbyh_A9-xayn9WoHc5G5icXviQuZgVDmJLSZ_KA75A8-m4Wb_pRGUfqeXnAVTTXnnwjykQ/exec';
+const CSV_URLS = {
+  'aprile': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRK--wjAjVazgf6_WVMDSv1jfkwdHYLcfQXG73H7HwSnYL8rHRMmGP60W3EHjT6eo9zuT11B0rA4KdS/pub?gid=0&single=true&output=csv',
+  'maggio': '',
+  'giugno': ''
+};
+
 const OB_INCASSO = 20000;
 const OB_SCONTRINO = 70;
 const OB_PRODOTTI = 800;
 
 function fmt(n){ return '€'+parseFloat(n).toLocaleString('it-IT',{minimumFractionDigits:0,maximumFractionDigits:2}); }
-function fmtN(n){ return parseFloat(n).toLocaleString('it-IT',{minimumFractionDigits:0,maximumFractionDigits:2}); }
 function colBar(p){ return p>=75?'var(--sk-green)':p>=40?'var(--sk-amber)':'var(--sk-red)'; }
 function colClass(p){ return p>=75?'green':p>=40?'amber':'red'; }
 
-function settimanaDelMese(dataStr){
-  var d = new Date(dataStr.split('/').reverse().join('-'));
-  var g = d.getDate();
-  return Math.ceil(g/7);
+function parseCSV(text){
+  var lines = text.trim().split('\n');
+  var headers = lines[0].split(',').map(h=>h.trim().replace(/"/g,''));
+  var rows = [];
+  for(var i=1;i<lines.length;i++){
+    var vals = lines[i].split(',').map(v=>v.trim().replace(/"/g,''));
+    var obj = {};
+    headers.forEach((h,j)=>obj[h]=vals[j]||'');
+    rows.push(obj);
+  }
+  return rows;
+}
+
+function settimana(dataStr){
+  if(!dataStr) return 0;
+  var parts = dataStr.split('/');
+  if(parts.length < 3) return 0;
+  var giorno = parseInt(parts[0]);
+  return Math.ceil(giorno/7);
 }
 
 function caricaMese(mese, btn){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   if(btn) btn.classList.add('active');
+
+  if(!CSV_URLS[mese]){
+    document.getElementById('contenuto').innerHTML = '<div class="loading" style="padding:2rem;background:var(--sk-white);border-radius:12px;border:1px solid var(--sk-gray-mid)">📅 Dati non ancora disponibili per questo mese.</div>';
+    return;
+  }
+
   document.getElementById('contenuto').innerHTML = '<div class="loading"><div class="spinner"></div><br>Caricamento dati...</div>';
 
-  fetch(API+'?mese='+encodeURIComponent(mese))
-    .then(r=>r.json())
-    .then(dati=>renderMese(dati, mese))
+  var url = 'https://corsproxy.io/?' + encodeURIComponent(CSV_URLS[mese]);
+
+  fetch(url)
+    .then(r=>r.text())
+    .then(text=>{
+      var dati = parseCSV(text);
+      renderMese(dati, mese);
+    })
     .catch(()=>{
-      document.getElementById('contenuto').innerHTML = '<div class="loading">Errore nel caricamento. Riprova.</div>';
+      document.getElementById('contenuto').innerHTML = '<div class="loading">Errore nel caricamento. Riprova tra qualche secondo.</div>';
     });
 }
 
 function renderMese(dati, mese){
-  // Filtra solo righe con dati
-  var righe = dati.filter(r => r.Incasso && parseFloat(r.Incasso) > 0);
+  var nomi = {aprile:'Aprile 2026', maggio:'Maggio 2026', giugno:'Giugno 2026'};
+  var nomeMese = nomi[mese];
 
-  // Calcoli totali
+  var righe = dati.filter(r=>r.Incasso && parseFloat(r.Incasso)>0);
+
   var totIncasso = righe.reduce((s,r)=>s+parseFloat(r.Incasso||0),0);
   var totClienti = righe.reduce((s,r)=>s+parseInt(r.Clienti||0),0);
-  var totOre = righe.reduce((s,r)=>s+parseFloat(r.Ore||0),0);
   var totProdotti = righe.reduce((s,r)=>s+parseFloat(r.Prodotti||0),0);
   var scontrino = totClienti>0 ? totIncasso/totClienti : 0;
 
-  // Settimane
   var settimane = {};
   righe.forEach(r=>{
-    var s = settimanaDelMese(r.Data);
-    if(!settimane[s]) settimane[s]={giorni:[],incasso:0,clienti:0,prodotti:0};
-    settimane[s].giorni.push(r);
+    var s = settimana(r.Data);
+    if(!settimane[s]) settimane[s]={incasso:0,clienti:0,prodotti:0,giorni:[]};
     settimane[s].incasso += parseFloat(r.Incasso||0);
     settimane[s].clienti += parseInt(r.Clienti||0);
     settimane[s].prodotti += parseFloat(r.Prodotti||0);
+    settimane[s].giorni.push(r);
   });
 
+  var numSett = Object.keys(settimane).length;
   var percIncasso = Math.min(Math.round(totIncasso/OB_INCASSO*100),100);
-  var percScontrino = Math.min(Math.round(scontrino/OB_SCONTRINO*100),100);
+  var percScontrino = scontrino>0 ? Math.min(Math.round(scontrino/OB_SCONTRINO*100),100) : 0;
   var percProdotti = totProdotti>0 ? Math.min(Math.round(totProdotti/OB_PRODOTTI*100),100) : 0;
 
-  var numSett = Object.keys(settimane).length;
-
-  // Tabella settimane
   var righeTabSett = '';
-  var settKeys = Object.keys(settimane).sort((a,b)=>a-b);
-  var prevIncasso = 0;
+  var settKeys = Object.keys(settimane).sort((a,b)=>parseInt(a)-parseInt(b));
+  var prevInc = 0;
   settKeys.forEach((s,i)=>{
     var sv = settimane[s];
     var sc = sv.clienti>0 ? sv.incasso/sv.clienti : 0;
-    var trend = i>0 && prevIncasso>0 ? Math.round((sv.incasso-prevIncasso)/prevIncasso*100) : null;
-    var trendHtml = trend!==null ? `<span class="${trend>=0?'green':'red'}">${trend>=0?'+':''}${trend}%</span>` : '—';
-    righeTabSett += `<tr>
-      <td>${s}ª settimana</td>
-      <td>${sv.clienti}</td>
-      <td class="num">${fmt(sv.incasso)}</td>
-      <td class="num ${colClass(Math.round(sc/OB_SCONTRINO*100))}">${fmt(sc)}</td>
-      <td class="num">${trendHtml}</td>
-    </tr>`;
-    prevIncasso = sv.incasso;
+    var trend = i>0&&prevInc>0 ? Math.round((sv.incasso-prevInc)/prevInc*100) : null;
+    var trendHtml = trend!==null ? '<span class="'+(trend>=0?'green':'red')+'">'+(trend>=0?'+':'')+trend+'%</span>' : '—';
+    righeTabSett += '<tr><td>'+s+'ª settimana</td><td>'+sv.clienti+'</td><td class="num">'+fmt(sv.incasso)+'</td><td class="num '+colClass(Math.round(sc/OB_SCONTRINO*100))+'">'+fmt(sc)+'</td><td class="num">'+trendHtml+'</td></tr>';
+    prevInc = sv.incasso;
   });
 
-  // Tabella giorni
-  var righeTabGiorni = '';
+  var righeGiorni = '';
   righe.forEach(r=>{
     var sc = parseInt(r.Clienti||0)>0 ? parseFloat(r.Incasso||0)/parseInt(r.Clienti||0) : 0;
-    var scClass = colClass(Math.round(sc/OB_SCONTRINO*100));
-    righeTabGiorni += `<tr>
-      <td>${r.Data}</td>
-      <td>${r.Giorno}</td>
-      <td>${r.Clienti||'—'}</td>
-      <td class="num">${r.Incasso?fmt(r.Incasso):'—'}</td>
-      <td class="num ${scClass}">${sc>0?fmt(sc):'—'}</td>
-      <td class="num">${r.Prodotti?fmt(r.Prodotti):'—'}</td>
-    </tr>`;
+    righeGiorni += '<tr><td>'+r.Data+'</td><td>'+r.Giorno+'</td><td>'+r.Clienti+'</td><td class="num">'+fmt(r.Incasso)+'</td><td class="num '+colClass(Math.round(sc/OB_SCONTRINO*100))+'">'+fmt(sc)+'</td><td class="num">'+(parseFloat(r.Prodotti||0)>0?fmt(r.Prodotti):'—')+'</td></tr>';
   });
 
-  if(righeTabGiorni===''){
-    righeTabGiorni = '<tr><td colspan="6" style="text-align:center;color:var(--sk-gray);padding:1rem">Nessun dato ancora — compila il foglio Google</td></tr>';
-  }
+  if(!righeGiorni) righeGiorni = '<tr><td colspan="6" style="text-align:center;color:var(--sk-gray);padding:1rem">Nessun dato ancora</td></tr>';
+  if(!righeTabSett) righeTabSett = '<tr><td colspan="5" style="text-align:center;color:var(--sk-gray);padding:1rem">Nessun dato ancora</td></tr>';
 
   document.getElementById('aggiornato').textContent = 'Aggiornato: '+new Date().toLocaleString('it-IT');
 
-  document.getElementById('contenuto').innerHTML = `
-    <p class="sl">Riepilogo ${mese}</p>
-    <div class="metrics-grid">
-      <div class="metric card-blue">
-        <div class="m-label">Incasso totale</div>
-        <div class="m-value ${totIncasso>0?'green':''}">${totIncasso>0?fmt(totIncasso):'—'}</div>
-        <div class="m-delta" style="color:var(--sk-gray)">${numSett} settimane tracciate</div>
-      </div>
-      <div class="metric">
-        <div class="m-label">Clienti serviti</div>
-        <div class="m-value">${totClienti>0?totClienti:'—'}</div>
-        <div class="m-delta" style="color:var(--sk-gray)">${numSett>0?'~'+Math.round(totClienti/numSett)+'/sett.':''}</div>
-      </div>
-      <div class="metric">
-        <div class="m-label">Scontrino medio</div>
-        <div class="m-value ${scontrino>0?colClass(percScontrino):''}">${scontrino>0?fmt(scontrino):'—'}</div>
-        <div class="m-delta amber">obiettivo ${fmt(OB_SCONTRINO)}</div>
-      </div>
-      <div class="metric">
-        <div class="m-label">Vendita prodotti</div>
-        <div class="m-value ${totProdotti>0?'green':'red'}">${totProdotti>0?fmt(totProdotti):'—'}</div>
-        <div class="m-delta ${totProdotti>0?'green':'red'}">${totProdotti>0?'tracciato':'non tracciato'}</div>
-      </div>
-    </div>
-
-    <div class="card card-blue">
-      <p class="sl">Andamento settimane — ${mese}</p>
-      <table>
-        <thead><tr><th>Settimana</th><th>Clienti</th><th class="num">Incasso</th><th class="num">Scontrino</th><th class="num">Trend</th></tr></thead>
-        <tbody>${righeTabSett||'<tr><td colspan="5" style="text-align:center;color:var(--sk-gray);padding:1rem">Nessun dato</td></tr>'}</tbody>
-        <tr class="total"><td>Totale ${mese}</td><td>${totClienti||'—'}</td><td class="num">${totIncasso>0?fmt(totIncasso):'—'}</td><td class="num ${colClass(percScontrino)}">${scontrino>0?fmt(scontrino):'—'}</td><td></td></tr>
-      </table>
-    </div>
-
-    <div class="card">
-      <p class="sl">Dettaglio giornaliero — ${mese}</p>
-      <table>
-        <thead><tr><th>Data</th><th>Giorno</th><th>Clienti</th><th class="num">Incasso</th><th class="num">Sc. medio</th><th class="num">Prodotti</th></tr></thead>
-        <tbody>${righeTabGiorni}</tbody>
-      </table>
-    </div>
-
-    <div class="card card-blue">
-      <p class="sl">Obiettivi ${mese}</p>
-      <div class="ob-row"><div class="ob-label">Incasso mensile (${fmt(OB_INCASSO)})</div><div class="ob-bar"><div class="ob-fill" style="width:${percIncasso}%;background:${colBar(percIncasso)}"></div></div><div class="ob-val ${colClass(percIncasso)}">${totIncasso>0?percIncasso+'%':'—'}</div></div>
-      <div class="ob-row"><div class="ob-label">Scontrino medio (${fmt(OB_SCONTRINO)})</div><div class="ob-bar"><div class="ob-fill" style="width:${percScontrino}%;background:${colBar(percScontrino)}"></div></div><div class="ob-val ${colClass(percScontrino)}">${scontrino>0?percScontrino+'%':'—'}</div></div>
-      <div class="ob-row" style="margin-bottom:0"><div class="ob-label">Vendita prodotti (${fmt(OB_PRODOTTI)})</div><div class="ob-bar"><div class="ob-fill" style="width:${percProdotti}%;background:${colBar(percProdotti)}"></div></div><div class="ob-val ${colClass(percProdotti)}">${totProdotti>0?percProdotti+'%':'—'}</div></div>
-    </div>
-  `;
+  document.getElementById('contenuto').innerHTML =
+    '<p class="sl">Riepilogo '+nomeMese+'</p>'+
+    '<div class="metrics-grid">'+
+      '<div class="metric card-blue"><div class="m-label">Incasso totale</div><div class="m-value '+(totIncasso>0?'green':'')+'">'+( totIncasso>0?fmt(totIncasso):'—')+'</div><div class="m-delta" style="color:var(--sk-gray)">'+numSett+' settimane tracciate</div></div>'+
+      '<div class="metric"><div class="m-label">Clienti serviti</div><div class="m-value">'+(totClienti>0?totClienti:'—')+'</div><div class="m-delta" style="color:var(--sk-gray)">'+(numSett>0?'~'+Math.round(totClienti/numSett)+'/sett.':'')+'</div></div>'+
+      '<div class="metric"><div class="m-label">Scontrino medio</div><div class="m-value '+(scontrino>0?colClass(percScontrino):'')+'">'+( scontrino>0?fmt(scontrino):'—')+'</div><div class="m-delta amber">obiettivo '+fmt(OB_SCONTRINO)+'</div></div>'+
+      '<div class="metric"><div class="m-label">Vendita prodotti</div><div class="m-value '+(totProdotti>0?'green':'red')+'">'+( totProdotti>0?fmt(totProdotti):'—')+'</div><div class="m-delta '+(totProdotti>0?'green':'red')+'">'+(totProdotti>0?'tracciato':'non tracciato')+'</div></div>'+
+    '</div>'+
+    '<div class="card card-blue"><p class="sl">Andamento settimane — '+nomeMese+'</p>'+
+    '<table><thead><tr><th>Settimana</th><th>Clienti</th><th class="num">Incasso</th><th class="num">Scontrino</th><th class="num">Trend</th></tr></thead>'+
+    '<tbody>'+righeTabSett+'</tbody>'+
+    '<tr class="total"><td>Totale '+nomeMese+'</td><td>'+(totClienti||'—')+'</td><td class="num">'+(totIncasso>0?fmt(totIncasso):'—')+'</td><td class="num '+colClass(percScontrino)+'">'+(scontrino>0?fmt(scontrino):'—')+'</td><td></td></tr>'+
+    '</table></div>'+
+    '<div class="card"><p class="sl">Dettaglio giornaliero</p>'+
+    '<table><thead><tr><th>Data</th><th>Giorno</th><th>Clienti</th><th class="num">Incasso</th><th class="num">Sc. medio</th><th class="num">Prodotti</th></tr></thead>'+
+    '<tbody>'+righeGiorni+'</tbody></table></div>'+
+    '<div class="card card-blue"><p class="sl">Obiettivi '+nomeMese+'</p>'+
+    '<div class="ob-row"><div class="ob-label">Incasso mensile ('+fmt(OB_INCASSO)+')</div><div class="ob-bar"><div class="ob-fill" style="width:'+percIncasso+'%;background:'+colBar(percIncasso)+'"></div></div><div class="ob-val '+colClass(percIncasso)+'">'+(totIncasso>0?percIncasso+'%':'—')+'</div></div>'+
+    '<div class="ob-row"><div class="ob-label">Scontrino medio ('+fmt(OB_SCONTRINO)+')</div><div class="ob-bar"><div class="ob-fill" style="width:'+percScontrino+'%;background:'+colBar(percScontrino)+'"></div></div><div class="ob-val '+colClass(percScontrino)+'">'+(scontrino>0?percScontrino+'%':'—')+'</div></div>'+
+    '<div class="ob-row" style="margin-bottom:0"><div class="ob-label">Vendita prodotti ('+fmt(OB_PRODOTTI)+')</div><div class="ob-bar"><div class="ob-fill" style="width:'+percProdotti+'%;background:'+colBar(percProdotti)+'"></div></div><div class="ob-val '+colClass(percProdotti)+'">'+(totProdotti>0?percProdotti+'%':'—')+'</div></div>'+
+    '</div>';
 }
 
-// Carica subito aprile
-caricaMese('Aprile 2026', null);
+caricaMese('aprile', null);
 </script>
 </body>
 </html>
