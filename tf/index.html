@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dashboard Centro Sartarelli</title>
+<title>Dashboard Tempio di Fidia</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -15,7 +15,7 @@
   --sk-red:#d94040;--sk-red-light:#fceaea;
 }
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--sk-bg);color:var(--sk-gray-dark);padding:1.5rem}
-.container{max-width:880px;margin:0 auto}
+.container{max-width:900px;margin:0 auto}
 .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:8px;background:var(--sk-white);border-radius:14px;padding:1.25rem 1.5rem;border:1px solid var(--sk-gray-mid)}
 .header-left{display:flex;align-items:center;gap:14px}
 .avatar{width:44px;height:44px;border-radius:50%;background:var(--sk-blue-light);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--sk-blue-dark)}
@@ -26,20 +26,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .badge{font-size:11px;padding:4px 12px;border-radius:99px;font-weight:600}
 .badge-amber{background:var(--sk-amber-light);color:var(--sk-amber)}
 .badge-green{background:var(--sk-green-light);color:var(--sk-green)}
-.badge-red{background:var(--sk-red-light);color:var(--sk-red)}
 .sl{font-size:11px;font-weight:700;color:var(--sk-gray);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
 .metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem}
 .metric{background:var(--sk-white);border-radius:10px;padding:.9rem 1rem;border:1px solid var(--sk-gray-mid)}
 .card-blue{border-top:3px solid var(--sk-blue)}
 .m-label{font-size:12px;color:var(--sk-gray);margin-bottom:4px}
-.m-value{font-size:22px;font-weight:700;line-height:1.2;color:var(--sk-gray-dark)}
+.m-value{font-size:22px;font-weight:700;line-height:1.2}
 .m-delta{font-size:12px;margin-top:3px}
 .green{color:var(--sk-green)}.amber{color:var(--sk-amber)}.red{color:var(--sk-red)}.blue{color:var(--sk-blue-dark)}
 .card{background:var(--sk-white);border:1px solid var(--sk-gray-mid);border-radius:12px;padding:1.25rem;margin-bottom:1rem}
 .two-col{display:grid;grid-template-columns:1.4fr 1fr;gap:1rem;margin-bottom:1rem}
 table{width:100%;font-size:13px;border-collapse:collapse}
 th{font-size:11px;font-weight:700;color:var(--sk-gray);text-align:left;padding:4px 8px 8px;border-bottom:2px solid var(--sk-blue-light)}
-td{padding:7px 8px;border-bottom:1px solid var(--sk-gray-light);color:var(--sk-gray-dark)}
+td{padding:7px 8px;border-bottom:1px solid var(--sk-gray-light)}
 tr:last-child td{border-bottom:none}
 td.num{text-align:right;font-variant-numeric:tabular-nums}
 tr.total td{font-weight:700;border-top:2px solid var(--sk-blue-light);background:var(--sk-blue-light)}
@@ -75,14 +74,19 @@ tr.total td{font-weight:700;border-top:2px solid var(--sk-blue-light);background
 .tab-row{display:flex;gap:6px;margin-bottom:1.25rem;flex-wrap:wrap}
 .tab{font-size:13px;padding:6px 16px;border-radius:99px;border:1.5px solid var(--sk-gray-mid);background:transparent;color:var(--sk-gray);cursor:pointer;font-weight:500}
 .tab.active{background:var(--sk-blue);color:#fff;border-color:var(--sk-blue)}
-.week-panel{display:none}.week-panel.active{display:block}
+.month-panel{display:none}.month-panel.active{display:block}
 .trend{display:inline-flex;align-items:center;font-size:12px;font-weight:600;padding:2px 7px;border-radius:99px;margin-left:5px}
 .trend-up{background:var(--sk-green-light);color:var(--sk-green)}
 .trend-dn{background:var(--sk-red-light);color:var(--sk-red)}
+.op-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1rem}
+.op-card{background:var(--sk-gray-light);border-radius:10px;padding:.85rem 1rem;border-left:3px solid var(--sk-blue)}
+.op-nome{font-size:13px;font-weight:700}
+.op-turno{font-size:11px;color:var(--sk-gray);margin-top:2px}
+.op-ore{font-size:11px;color:var(--sk-gray)}
 .footer{display:flex;justify-content:space-between;align-items:center;padding-top:1rem;border-top:2px solid var(--sk-blue-light);margin-top:.5rem;font-size:12px;color:var(--sk-gray)}
 .footer strong{color:var(--sk-blue-dark)}
 .logo{font-size:13px;font-weight:700;color:var(--sk-blue);letter-spacing:.05em}
-@media(max-width:600px){.metrics-grid{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}.funnel{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.metrics-grid,.op-grid,.funnel{grid-template-columns:repeat(2,1fr)}.two-col,.grid3{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -90,10 +94,10 @@ tr.total td{font-weight:700;border-top:2px solid var(--sk-blue-light);background
 
   <div class="header">
     <div class="header-left">
-      <div class="avatar">SA</div>
+      <div class="avatar">TF</div>
       <div>
-        <div class="centro-name">Centro Sartarelli</div>
-        <div class="centro-sub">Aprile 2026 — 1 operatrice</div>
+        <div class="centro-name">Tempio di Fidia</div>
+        <div class="centro-sub">4 operatrici · Mar–Ven + Sab mattina</div>
       </div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
@@ -103,81 +107,55 @@ tr.total td{font-weight:700;border-top:2px solid var(--sk-blue-light);background
   </div>
 
   <div class="tab-row">
-    <button class="tab" onclick="switchWeek('s1',this)">Sett. 1 — 7/12 apr</button>
-    <button class="tab" onclick="switchWeek('s2',this)">Sett. 2 — 14/18 apr</button>
-    <button class="tab active" onclick="switchWeek('s3',this)">Sett. 3 — 21/24 apr</button>
+    <button class="tab" onclick="switchMonth('marzo',this)">Marzo 2026</button>
+    <button class="tab active" onclick="switchMonth('aprile',this)">Aprile 2026</button>
+    <button class="tab" onclick="switchMonth('maggio',this)">Maggio 2026</button>
+    <button class="tab" onclick="switchMonth('giugno',this)">Giugno 2026</button>
   </div>
 
-  <!-- SETTIMANA 1 -->
-  <div id="s1" class="week-panel">
-    <p class="sl">Riepilogo settimana 1 — 7/12 aprile</p>
+  <!-- MARZO -->
+  <div id="marzo" class="month-panel">
+    <p class="sl">Riepilogo marzo 2026</p>
     <div class="metrics-grid">
-      <div class="metric card-blue"><div class="m-label">Incasso totale</div><div class="m-value">€1.518</div><div class="m-delta green">25 clienti</div></div>
-      <div class="metric"><div class="m-label">Clienti serviti</div><div class="m-value">25</div><div class="m-delta" style="color:var(--sk-gray)">35 ore</div></div>
-      <div class="metric"><div class="m-label">Scontrino medio</div><div class="m-value">€60,7</div><div class="m-delta amber">obiettivo €75</div></div>
-      <div class="metric"><div class="m-label">Prodotti</div><div class="m-value">€58</div><div class="m-delta red">solo venerdì</div></div>
+      <div class="metric card-blue"><div class="m-label">Incasso totale</div><div class="m-value">€3.884</div><div class="m-delta" style="color:var(--sk-gray)">dati parziali sett. 1</div></div>
+      <div class="metric"><div class="m-label">Clienti serviti</div><div class="m-value">72</div><div class="m-delta" style="color:var(--sk-gray)">sett. 30 mar–4 apr</div></div>
+      <div class="metric"><div class="m-label">Scontrino medio</div><div class="m-value">€53,9</div><div class="m-delta amber">obiettivo €70</div></div>
+      <div class="metric"><div class="m-label">Prodotti</div><div class="m-value">—</div><div class="m-delta red">non tracciato</div></div>
     </div>
     <div class="card card-blue">
-      <p class="sl">Dettaglio giornaliero</p>
+      <p class="sl">Dettaglio settimana 30 mar – 4 apr</p>
       <table>
-        <thead><tr><th>Giorno</th><th>Clienti</th><th>Ore</th><th class="num">Tratt.</th><th class="num">Prodotti</th><th class="num">Totale</th></tr></thead>
+        <thead><tr><th>Giorno</th><th>Clienti</th><th class="num">Totale</th><th class="num">Sc. medio</th></tr></thead>
         <tbody>
-          <tr><td>Lunedì</td><td>—</td><td>—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
-          <tr><td>Martedì</td><td>4</td><td>5</td><td class="num">€80</td><td class="num">—</td><td class="num">€80</td></tr>
-          <tr><td>Mercoledì</td><td>5</td><td>8</td><td class="num">€100</td><td class="num">—</td><td class="num">€100</td></tr>
-          <tr><td>Giovedì</td><td>5</td><td>6</td><td class="num">€350</td><td class="num">—</td><td class="num">€350</td></tr>
-          <tr><td>Venerdì</td><td>5</td><td>8</td><td class="num">€770</td><td class="num">€58</td><td class="num">€828</td></tr>
-          <tr><td>Sabato</td><td>6</td><td>8</td><td class="num">€160</td><td class="num">—</td><td class="num">€160</td></tr>
-          <tr class="total"><td>Totale</td><td>25</td><td>35</td><td class="num">€1.460</td><td class="num">€58</td><td class="num">€1.518</td></tr>
+          <tr><td>Martedì</td><td>13</td><td class="num">€513,50</td><td class="num">€39,5</td></tr>
+          <tr><td>Mercoledì</td><td>12</td><td class="num">€541</td><td class="num">€45,1</td></tr>
+          <tr><td>Giovedì</td><td>11</td><td class="num">€642</td><td class="num amber">€58,4</td></tr>
+          <tr><td>Venerdì</td><td>25</td><td class="num green">€1.770</td><td class="num green">€70,8</td></tr>
+          <tr><td>Sabato</td><td>11</td><td class="num">€418</td><td class="num">€38</td></tr>
+          <tr class="total"><td>Totale</td><td>72</td><td class="num">€3.884</td><td class="num amber">€53,9</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 
-  <!-- SETTIMANA 2 -->
-  <div id="s2" class="week-panel">
-    <p class="sl">Riepilogo settimana 2 — 14/18 aprile</p>
-    <div class="metrics-grid">
-      <div class="metric card-blue"><div class="m-label">Incasso totale</div><div class="m-value">€1.650</div><div class="m-delta green">+9% vs sett. 1</div></div>
-      <div class="metric"><div class="m-label">Clienti serviti</div><div class="m-value">26</div><div class="m-delta green">+1 vs sett. 1</div></div>
-      <div class="metric"><div class="m-label">Scontrino medio</div><div class="m-value">€63,5</div><div class="m-delta green">+€2,8 vs sett. 1</div></div>
-      <div class="metric"><div class="m-label">Prodotti</div><div class="m-value">—</div><div class="m-delta red">da tracciare</div></div>
-    </div>
-    <div class="card card-blue">
-      <p class="sl">Dettaglio giornaliero</p>
-      <table>
-        <thead><tr><th>Giorno</th><th>Clienti</th><th>Ore</th><th class="num">Incasso</th></tr></thead>
-        <tbody>
-          <tr><td>Lunedì</td><td>—</td><td>—</td><td class="num">—</td></tr>
-          <tr><td>Martedì</td><td>5</td><td>8,30</td><td class="num green">€940</td></tr>
-          <tr><td>Mercoledì</td><td>4</td><td>7</td><td class="num">€180</td></tr>
-          <tr><td>Giovedì</td><td>5</td><td>8</td><td class="num">€165</td></tr>
-          <tr><td>Venerdì</td><td>5</td><td>7</td><td class="num">€175</td></tr>
-          <tr><td>Sabato</td><td>6</td><td>8</td><td class="num">€190</td></tr>
-          <tr class="total"><td>Totale</td><td>26</td><td>38,30</td><td class="num">€1.650</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- SETTIMANA 3 -->
-  <div id="s3" class="week-panel active">
-    <p class="sl">Riepilogo settimana 3 — 21/24 aprile</p>
+  <!-- APRILE -->
+  <div id="aprile" class="month-panel active">
+    <p class="sl">Riepilogo aprile 2026</p>
     <div class="metrics-grid">
       <div class="metric card-blue">
         <div class="m-label">Incasso totale</div>
-        <div class="m-value">€688</div>
-        <div class="m-delta red">-€962 vs sett. 2 <span class="trend trend-dn">-58%</span></div>
+        <div class="m-value green">€9.965</div>
+        <div class="m-delta green">3 settimane</div>
       </div>
       <div class="metric">
         <div class="m-label">Clienti serviti</div>
-        <div class="m-value">24</div>
-        <div class="m-delta" style="color:var(--sk-gray)">4 giorni (sett. corta)</div>
+        <div class="m-value">209</div>
+        <div class="m-delta" style="color:var(--sk-gray)">~70/sett. media</div>
       </div>
       <div class="metric">
         <div class="m-label">Scontrino medio</div>
-        <div class="m-value red">€28,7</div>
-        <div class="m-delta red">obiettivo €75 — alert</div>
+        <div class="m-value">€47,7</div>
+        <div class="m-delta red">obiettivo €70</div>
       </div>
       <div class="metric">
         <div class="m-label">Prodotti</div>
@@ -186,54 +164,103 @@ tr.total td{font-weight:700;border-top:2px solid var(--sk-blue-light);background
       </div>
     </div>
 
+    <!-- CONFRONTO SETTIMANE APRILE -->
+    <div class="card card-blue">
+      <p class="sl">Andamento settimane — aprile</p>
+      <table>
+        <thead><tr><th>Settimana</th><th>Clienti</th><th class="num">Incasso</th><th class="num">Scontrino</th><th class="num">Trend</th></tr></thead>
+        <tbody>
+          <tr><td>Sett. 1 — 20/24 apr</td><td>72</td><td class="num">€3.121,50</td><td class="num red">€43,4</td><td class="num" style="color:var(--sk-gray)">—</td></tr>
+          <tr><td>Sett. 2 — 27/29 apr</td><td>65</td><td class="num">€2.959,50</td><td class="num amber">€45,5</td><td class="num green">+5%</td></tr>
+          <tr><td>Sett. 3 — da completare</td><td>—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
+          <tr class="total"><td>Totale aprile (parz.)</td><td>137</td><td class="num">€6.081</td><td class="num red">€44,4</td><td class="num"></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SETT 1 APRILE -->
     <div class="two-col">
-      <div class="card card-blue">
-        <p class="sl">Dettaglio giornaliero</p>
+      <div class="card">
+        <p class="sl">Dettaglio sett. 1 — 20/24 aprile</p>
         <table>
-          <thead><tr><th>Giorno</th><th>Clienti</th><th>Ore</th><th class="num">Incasso</th><th class="num">Sc. medio</th></tr></thead>
+          <thead><tr><th>Giorno</th><th>Clienti</th><th class="num">Totale</th><th class="num">Sc. medio</th></tr></thead>
           <tbody>
-            <tr><td>Lunedì</td><td>—</td><td>—</td><td class="num">—</td><td class="num">—</td></tr>
-            <tr><td>Martedì</td><td>6</td><td>8</td><td class="num">€90</td><td class="num red">€15</td></tr>
-            <tr><td>Mercoledì</td><td>5</td><td>8</td><td class="num">€190</td><td class="num amber">€38</td></tr>
-            <tr><td>Giovedì</td><td>6</td><td>8</td><td class="num">€108</td><td class="num red">€18</td></tr>
-            <tr><td>Venerdì</td><td>7</td><td>8</td><td class="num">€300</td><td class="num amber">€42,9</td></tr>
-            <tr><td>Sabato</td><td>—</td><td>—</td><td class="num">—</td><td class="num">—</td></tr>
-            <tr class="total"><td>Totale</td><td>24</td><td>32</td><td class="num">€688</td><td class="num red">€28,7</td></tr>
+            <tr><td>Martedì</td><td>15</td><td class="num">€818</td><td class="num amber">€54,5</td></tr>
+            <tr><td>Mercoledì</td><td>17</td><td class="num">€403</td><td class="num red">€23,7</td></tr>
+            <tr><td>Giovedì</td><td>16</td><td class="num">€884,50</td><td class="num green">€55,3</td></tr>
+            <tr><td>Venerdì</td><td>24</td><td class="num green">€1.016</td><td class="num amber">€42,3</td></tr>
+            <tr><td>Sabato</td><td>—</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr class="total"><td>Totale</td><td>72</td><td class="num">€3.121,50</td><td class="num red">€43,4</td></tr>
           </tbody>
         </table>
       </div>
       <div class="card">
-        <p class="sl">Alert settimana</p>
-        <ul class="alert-list">
-          <li class="alert-item danger"><div class="dot dot-red"></div><div class="alert-text"><strong>Scontrino crollato a €28,7</strong> — da €63,5 della sett. prec. Capire il motivo urgentemente.</div></li>
-          <li class="alert-item danger"><div class="dot dot-red"></div><div class="alert-text"><strong>Martedì: 6 clienti = €90</strong> — €15 a cliente. Trattamenti brevi? Sconti? Da analizzare.</div></li>
-          <li class="alert-item warn"><div class="dot dot-warn"></div><div class="alert-text"><strong>Settimana corta</strong> — 4 giorni senza sabato. Impatto sul totale.</div></li>
-          <li class="alert-item info"><div class="dot dot-info"></div><div class="alert-text"><strong>Venerdì tiene</strong> — €300 con 7 clienti. Unico giorno nella norma.</div></li>
-        </ul>
+        <p class="sl">Dettaglio sett. 2 — 27/29 aprile</p>
+        <table>
+          <thead><tr><th>Giorno</th><th>Clienti</th><th class="num">Totale</th><th class="num">Sc. medio</th></tr></thead>
+          <tbody>
+            <tr><td>Martedì</td><td>21</td><td class="num green">€1.109,50</td><td class="num green">€52,8</td></tr>
+            <tr><td>Mercoledì</td><td>14</td><td class="num">€530</td><td class="num amber">€37,9</td></tr>
+            <tr><td>Giovedì</td><td>30</td><td class="num green">€1.320</td><td class="num amber">€44</td></tr>
+            <tr><td>Venerdì</td><td>—</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr><td>Sabato</td><td>—</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr class="total"><td>Totale</td><td>65</td><td class="num">€2.959,50</td><td class="num amber">€45,5</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
-    <!-- CONFRONTO APRILE -->
     <div class="card">
-      <p class="sl">Andamento aprile — confronto settimane</p>
-      <table>
-        <thead><tr><th>Settimana</th><th>Clienti</th><th class="num">Incasso</th><th class="num">Scontrino</th><th class="num">Trend</th></tr></thead>
-        <tbody>
-          <tr><td>Sett. 1 — 7/12 apr</td><td>25</td><td class="num">€1.518</td><td class="num">€60,7</td><td class="num" style="color:var(--sk-gray)">—</td></tr>
-          <tr><td>Sett. 2 — 14/18 apr</td><td>26</td><td class="num green">€1.650</td><td class="num green">€63,5</td><td class="num green">+9%</td></tr>
-          <tr><td>Sett. 3 — 21/24 apr</td><td>24</td><td class="num red">€688</td><td class="num red">€28,7</td><td class="num red">-58%</td></tr>
-          <tr class="total"><td>Totale aprile (parz.)</td><td>75</td><td class="num">€3.856</td><td class="num amber">€51,4</td><td class="num"></td></tr>
-        </tbody>
-      </table>
+      <p class="sl">Alert aprile</p>
+      <ul class="alert-list">
+        <li class="alert-item danger"><div class="dot dot-red"></div><div class="alert-text"><strong>Scontrino molto basso</strong> — €44,4 media aprile vs €53,9 marzo. Tendenza in calo da analizzare urgentemente.</div></li>
+        <li class="alert-item warn"><div class="dot dot-warn"></div><div class="alert-text"><strong>Mercoledì anomalo</strong> — sett. 1: €23,7/cliente. Stesso problema di Sartarelli. Trattamenti brevi o sconti?</div></li>
+        <li class="alert-item good"><div class="dot dot-good"></div><div class="alert-text"><strong>Giovedì sett. 2 positivo</strong> — 30 clienti per €1.320. Volume alto e scontrino in miglioramento.</div></li>
+        <li class="alert-item info"><div class="dot dot-info"></div><div class="alert-text"><strong>Prodotti ancora non tracciati</strong> — priorità inserire questa colonna nella scheda.</div></li>
+      </ul>
+    </div>
+
+    <div class="card card-blue">
+      <p class="sl">Obiettivi aprile</p>
+      <div class="ob-row"><div class="ob-label">Incasso mensile (€20.000)</div><div class="ob-bar"><div class="ob-fill" style="width:30%;background:var(--sk-red)"></div></div><div class="ob-val red">30%*</div></div>
+      <div class="ob-row"><div class="ob-label">Scontrino medio (€70)</div><div class="ob-bar"><div class="ob-fill" style="width:63%;background:var(--sk-red)"></div></div><div class="ob-val red">63%</div></div>
+      <div class="ob-row" style="margin-bottom:0"><div class="ob-label">Vendita prodotti (€800)</div><div class="ob-bar"><div class="ob-fill" style="width:0%;background:var(--sk-red)"></div></div><div class="ob-val red">—</div></div>
+      <div style="font-size:11px;color:var(--sk-gray);margin-top:8px">* dati parziali — manca almeno 1 settimana</div>
     </div>
   </div>
 
-  <!-- OBIETTIVI MESE -->
-  <div class="card card-blue">
-    <p class="sl">Obiettivi aprile</p>
-    <div class="ob-row"><div class="ob-label">Incasso mensile (€6.000)</div><div class="ob-bar"><div class="ob-fill" style="width:64%;background:var(--sk-amber)"></div></div><div class="ob-val amber">64%</div></div>
-    <div class="ob-row"><div class="ob-label">Scontrino medio (€75)</div><div class="ob-bar"><div class="ob-fill" style="width:69%;background:var(--sk-red)"></div></div><div class="ob-val red">69%</div></div>
-    <div class="ob-row" style="margin-bottom:0"><div class="ob-label">Vendita prodotti (€300)</div><div class="ob-bar"><div class="ob-fill" style="width:19%;background:var(--sk-red)"></div></div><div class="ob-val red">19%</div></div>
+  <!-- MAGGIO -->
+  <div id="maggio" class="month-panel">
+    <div class="card" style="text-align:center;padding:2rem;color:var(--sk-gray)">
+      <div style="font-size:32px;margin-bottom:8px">📅</div>
+      <div style="font-size:15px;font-weight:600;margin-bottom:4px">Maggio non ancora iniziato</div>
+      <div style="font-size:13px">I dati appariranno qui appena inseriti.</div>
+    </div>
+  </div>
+
+  <!-- GIUGNO -->
+  <div id="giugno" class="month-panel">
+    <div class="card" style="text-align:center;padding:2rem;color:var(--sk-gray)">
+      <div style="font-size:32px;margin-bottom:8px">📅</div>
+      <div style="font-size:15px;font-weight:600;margin-bottom:4px">Giugno non ancora iniziato</div>
+      <div style="font-size:13px">I dati appariranno qui appena inseriti.</div>
+    </div>
+  </div>
+
+  <!-- CAPACITA PRODUTTIVA -->
+  <div class="card">
+    <p class="sl">Capacità produttiva — 4 operatrici</p>
+    <div class="op-grid" style="margin-bottom:1rem">
+      <div class="op-card"><div class="op-nome">Alessia</div><div class="op-turno">Mattina</div><div class="op-ore">6 ore/giorno</div></div>
+      <div class="op-card"><div class="op-nome">Dieletta</div><div class="op-turno">Mezza giornata</div><div class="op-ore">6 ore/giorno</div></div>
+      <div class="op-card"><div class="op-nome">Giusy</div><div class="op-turno">Giornata</div><div class="op-ore">6 ore/giorno</div></div>
+      <div class="op-card"><div class="op-nome">Monica</div><div class="op-turno">Pomeriggio</div><div class="op-ore">6 ore/giorno</div></div>
+    </div>
+    <div class="grid3">
+      <div class="met"><div class="ml">Slot totali/giorno</div><div class="mv blue">16–20</div><div class="m-delta" style="font-size:12px;color:var(--sk-gray)">4 op. × 4-5 slot</div></div>
+      <div class="met"><div class="ml">Clienti max/settimana</div><div class="mv blue">80–100</div><div class="m-delta" style="font-size:12px;color:var(--sk-gray)">4 giorni + sab. mattina</div></div>
+      <div class="met"><div class="ml">Potenziale mensile</div><div class="mv green">€22.400</div><div class="m-delta" style="font-size:12px;color:var(--sk-gray)">a scontrino €70</div></div>
+    </div>
   </div>
 
   <!-- FUNNEL -->
@@ -265,22 +292,22 @@ tr.total td{font-weight:700;border-top:2px solid var(--sk-blue-light);background
 
   <!-- NOTE -->
   <div class="card card-blue">
-    <div class="note-head"><p class="sl" style="margin:0">Note del consulente</p><span>Aggiornato 24 apr 2026</span></div>
+    <div class="note-head"><p class="sl" style="margin:0">Note del consulente</p><span>Aggiornato 30 apr 2026</span></div>
     <div class="note-box">
-      Settimana 3 con un segnale preoccupante — lo scontrino è crollato a €28,7, il più basso da quando monitoriamo. Con 24 clienti in 4 giorni il volume c'è, ma il valore per cliente è anomalmente basso, specialmente martedì (€15) e giovedì (€18). La prima cosa da fare è capire cosa è successo: erano trattamenti brevi? Sconti? Abbonamenti scalati? Venerdì con €300 dimostra che il potenziale c'è. Questa settimana iniziamo le azioni di marketing e rimettiamo il focus sulla proposta trattamenti completi.
+      Aprile mostra un segnale preoccupante: lo scontrino medio è sceso a €44,4 rispetto ai €53,9 di marzo. Con 70 clienti a settimana questo gap vale €450 in meno ogni settimana — circa €1.800 al mese. Il mercoledì in particolare mostra valori anomali (€23 a cliente nella settimana 1). La priorità è capire la causa — se sono abbonamenti scalati, trattamenti brevi o sconti non pianificati — e intervenire. Il potenziale del centro è €22.400/mese a scontrino €70: siamo al 30%. C'è molto spazio di crescita.
     </div>
   </div>
 
   <div class="footer">
     <div class="logo">SKINEM</div>
     <span>Consulenza <strong>Enzo Evandri</strong> — Dashboard riservata al centro</span>
-    <span>Aggiornato 24 apr 2026</span>
+    <span>Aggiornato 30 apr 2026</span>
   </div>
 
 </div>
 <script>
-function switchWeek(id,btn){
-  document.querySelectorAll('.week-panel').forEach(p=>p.classList.remove('active'));
+function switchMonth(id,btn){
+  document.querySelectorAll('.month-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   btn.classList.add('active');
