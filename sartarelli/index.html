@@ -121,7 +121,7 @@ tr.total td{font-weight:700;border-top:2px solid var(--sk-blue-light);background
 
   <div class="card card-blue">
     <div class="note-head"><p class="sl" style="margin:0">Note del consulente</p><span>Aggiornato mag 2026</span></div>
-    <div class="note-box">Il Centro Sartarelli sta crescendo settimana dopo settimana. Il focus rimane sull'alzare lo scontrino medio verso €75 e iniziare a tracciare e vendere prodotti sistematicamente. Ogni €10 in più di scontrino vale €250/settimana — €1.000 al mese.</div>
+    <div class="note-box">Il Centro Sartarelli sta crescendo settimana dopo settimana. Il focus rimane sull'alzare lo scontrino medio verso €75 e vendere prodotti sistematicamente. Ogni €10 in più di scontrino vale €250/settimana — €1.000 al mese.</div>
   </div>
 
   <div class="footer">
@@ -152,6 +152,7 @@ function parseCSV(text){
   var rows = [];
   for(var i=1;i<lines.length;i++){
     var vals = lines[i].split(',').map(v=>v.trim().replace(/"/g,''));
+    if(vals.length < 2) continue;
     var obj = {};
     headers.forEach((h,j)=>obj[h]=vals[j]||'');
     rows.push(obj);
@@ -159,11 +160,28 @@ function parseCSV(text){
   return rows;
 }
 
-function settimana(dataStr){
+// Calcola numero settimana del mese basato su settimana reale lun-dom
+function settimanaDelMese(dataStr){
   if(!dataStr) return 0;
   var parts = dataStr.split('/');
   if(parts.length < 3) return 0;
-  return Math.ceil(parseInt(parts[0])/7);
+  var d = new Date(parseInt(parts[2]), parseInt(parts[1])-1, parseInt(parts[0]));
+  // Primo giorno del mese
+  var primoGiorno = new Date(d.getFullYear(), d.getMonth(), 1);
+  // Numero settimana ISO dalla data
+  var diff = d - primoGiorno;
+  var giorniDiff = Math.floor(diff / 86400000);
+  // Offset per far iniziare da lunedì
+  var offsetPrimo = primoGiorno.getDay() === 0 ? 6 : primoGiorno.getDay() - 1;
+  return Math.floor((giorniDiff + offsetPrimo) / 7) + 1;
+}
+
+function nomeSettimana(num, dati){
+  // Trova prima e ultima data della settimana
+  var righe = dati.filter(r=>settimanaDelMese(r.Data)===num && r.Data);
+  if(righe.length===0) return num+'ª settimana';
+  var date = righe.map(r=>r.Data);
+  return num+'ª sett. ('+date[0]+' – '+date[date.length-1]+')';
 }
 
 function caricaMese(mese, btn){
@@ -177,12 +195,21 @@ function caricaMese(mese, btn){
 
   document.getElementById('contenuto').innerHTML = '<div class="loading"><div class="spinner"></div><br>Caricamento dati...</div>';
 
-  var url = 'https://corsproxy.io/?' + encodeURIComponent(CSV_URLS[mese]);
-
-  fetch(url)
+  // Prova prima senza proxy, poi con proxy
+  fetch(CSV_URLS[mese])
     .then(r=>r.text())
-    .then(text=>{ renderMese(parseCSV(text), mese); })
-    .catch(()=>{ document.getElementById('contenuto').innerHTML = '<div class="loading">Errore nel caricamento. Riprova.</div>'; });
+    .then(text=>renderMese(parseCSV(text), mese))
+    .catch(()=>{
+      fetch('https://corsproxy.io/?'+encodeURIComponent(CSV_URLS[mese]))
+        .then(r=>r.text())
+        .then(text=>renderMese(parseCSV(text), mese))
+        .catch(()=>{
+          fetch('https://api.allorigins.win/raw?url='+encodeURIComponent(CSV_URLS[mese]))
+            .then(r=>r.text())
+            .then(text=>renderMese(parseCSV(text), mese))
+            .catch(()=>{ document.getElementById('contenuto').innerHTML = '<div class="loading">Errore nel caricamento. Riprova.</div>'; });
+        });
+    });
 }
 
 function renderMese(dati, mese){
@@ -195,13 +222,15 @@ function renderMese(dati, mese){
   var totProdotti = righe.reduce((s,r)=>s+parseFloat(r.Prodotti||0),0);
   var scontrino = totClienti>0 ? totIncasso/totClienti : 0;
 
+  // Raggruppa per settimana reale
   var settimane = {};
   righe.forEach(r=>{
-    var s = settimana(r.Data);
-    if(!settimane[s]) settimane[s]={incasso:0,clienti:0,prodotti:0};
+    var s = settimanaDelMese(r.Data);
+    if(!settimane[s]) settimane[s]={incasso:0,clienti:0,prodotti:0,date:[]};
     settimane[s].incasso += parseFloat(r.Incasso||0);
     settimane[s].clienti += parseInt(r.Clienti||0);
     settimane[s].prodotti += parseFloat(r.Prodotti||0);
+    settimane[s].date.push(r.Data);
   });
 
   var numSett = Object.keys(settimane).length;
@@ -217,7 +246,8 @@ function renderMese(dati, mese){
     var sc = sv.clienti>0 ? sv.incasso/sv.clienti : 0;
     var trend = i>0&&prevInc>0 ? Math.round((sv.incasso-prevInc)/prevInc*100) : null;
     var trendHtml = trend!==null ? '<span class="'+(trend>=0?'green':'red')+'">'+(trend>=0?'+':'')+trend+'%</span>' : '—';
-    righeTabSett += '<tr><td>'+s+'ª settimana</td><td>'+sv.clienti+'</td><td class="num">'+fmt(sv.incasso)+'</td><td class="num '+colClass(Math.round(sc/OB_SCONTRINO*100))+'">'+fmt(sc)+'</td><td class="num">'+trendHtml+'</td></tr>';
+    var dateRange = sv.date.length>0 ? sv.date[0]+' – '+sv.date[sv.date.length-1] : '';
+    righeTabSett += '<tr><td>'+s+'ª sett.<br><small style="color:var(--sk-gray)">'+dateRange+'</small></td><td>'+sv.clienti+'</td><td class="num">'+fmt(sv.incasso)+'</td><td class="num '+colClass(Math.round(sc/OB_SCONTRINO*100))+'">'+fmt(sc)+'</td><td class="num">'+trendHtml+'</td></tr>';
     prevInc = sv.incasso;
   });
 
