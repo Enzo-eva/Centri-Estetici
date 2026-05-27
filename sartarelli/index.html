@@ -93,8 +93,8 @@ tr.total td{font-weight:700;border-top:2px solid var(--sk-blue-light);background
 
   <div class="tab-row">
     <button class="tab" onclick="caricaMese('marzo',this)">Marzo 2026</button>
-    <button class="tab active" onclick="caricaMese('aprile',this)">Aprile 2026</button>
-    <button class="tab" onclick="caricaMese('maggio',this)">Maggio 2026</button>
+    <button class="tab" onclick="caricaMese('aprile',this)">Aprile 2026</button>
+    <button class="tab active" onclick="caricaMese('maggio',this)">Maggio 2026</button>
   </div>
 
   <div id="aggiornato" class="aggiornato"></div>
@@ -135,7 +135,7 @@ tr.total td{font-weight:700;border-top:2px solid var(--sk-blue-light);background
 const CSV_URLS = {
   'marzo':  'https://docs.google.com/spreadsheets/d/e/2PACX-1vRjVzBXB4j5JpgT2iSZDAVLbHhVBDafdWIM7WKLX4mqMdQ1hFyYTXVv-NulPMNp4cjBisbwlJOUXvbw/pub?gid=0&single=true&output=csv',
   'aprile': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRjVzBXB4j5JpgT2iSZDAVLbHhVBDafdWIM7WKLX4mqMdQ1hFyYTXVv-NulPMNp4cjBisbwlJOUXvbw/pub?gid=1985267357&single=true&output=csv',
-  'maggio': ''
+  'maggio': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRjVzBXB4j5JpgT2iSZDAVLbHhVBDafdWIM7WKLX4mqMdQ1hFyYTXVv-NulPMNp4cjBisbwlJOUXvbw/pub?gid=270479089&single=true&output=csv'
 };
 
 const OB_INCASSO = 6000;
@@ -160,28 +160,16 @@ function parseCSV(text){
   return rows;
 }
 
-// Calcola numero settimana del mese basato su settimana reale lun-dom
 function settimanaDelMese(dataStr){
   if(!dataStr) return 0;
   var parts = dataStr.split('/');
   if(parts.length < 3) return 0;
   var d = new Date(parseInt(parts[2]), parseInt(parts[1])-1, parseInt(parts[0]));
-  // Primo giorno del mese
   var primoGiorno = new Date(d.getFullYear(), d.getMonth(), 1);
-  // Numero settimana ISO dalla data
   var diff = d - primoGiorno;
   var giorniDiff = Math.floor(diff / 86400000);
-  // Offset per far iniziare da lunedì
   var offsetPrimo = primoGiorno.getDay() === 0 ? 6 : primoGiorno.getDay() - 1;
   return Math.floor((giorniDiff + offsetPrimo) / 7) + 1;
-}
-
-function nomeSettimana(num, dati){
-  // Trova prima e ultima data della settimana
-  var righe = dati.filter(r=>settimanaDelMese(r.Data)===num && r.Data);
-  if(righe.length===0) return num+'ª settimana';
-  var date = righe.map(r=>r.Data);
-  return num+'ª sett. ('+date[0]+' – '+date[date.length-1]+')';
 }
 
 function caricaMese(mese, btn){
@@ -195,7 +183,6 @@ function caricaMese(mese, btn){
 
   document.getElementById('contenuto').innerHTML = '<div class="loading"><div class="spinner"></div><br>Caricamento dati...</div>';
 
-  // Prova prima senza proxy, poi con proxy
   fetch(CSV_URLS[mese])
     .then(r=>r.text())
     .then(text=>renderMese(parseCSV(text), mese))
@@ -222,7 +209,6 @@ function renderMese(dati, mese){
   var totProdotti = righe.reduce((s,r)=>s+parseFloat(r.Prodotti||0),0);
   var scontrino = totClienti>0 ? totIncasso/totClienti : 0;
 
-  // Raggruppa per settimana reale
   var settimane = {};
   righe.forEach(r=>{
     var s = settimanaDelMese(r.Data);
@@ -285,7 +271,7 @@ function renderMese(dati, mese){
     '</div>';
 }
 
-caricaMese('aprile', null);
+caricaMese('maggio', null);
 </script>
 </body>
 </html>
