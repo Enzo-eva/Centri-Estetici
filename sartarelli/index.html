@@ -94,7 +94,8 @@ tr.total td{font-weight:700;border-top:2px solid var(--sk-blue-light);background
   <div class="tab-row">
     <button class="tab" onclick="caricaMese('marzo',this)">Marzo 2026</button>
     <button class="tab" onclick="caricaMese('aprile',this)">Aprile 2026</button>
-    <button class="tab active" onclick="caricaMese('maggio',this)">Maggio 2026</button>
+    <button class="tab" onclick="caricaMese('maggio',this)">Maggio 2026</button>
+    <button class="tab active" onclick="caricaMese('giugno',this)">Giugno 2026</button>
   </div>
 
   <div id="aggiornato" class="aggiornato"></div>
@@ -120,7 +121,7 @@ tr.total td{font-weight:700;border-top:2px solid var(--sk-blue-light);background
   </div>
 
   <div class="card card-blue">
-    <div class="note-head"><p class="sl" style="margin:0">Note del consulente</p><span>Aggiornato mag 2026</span></div>
+    <div class="note-head"><p class="sl" style="margin:0">Note del consulente</p><span>Aggiornato giu 2026</span></div>
     <div class="note-box">Il Centro Sartarelli sta crescendo settimana dopo settimana. Il focus rimane sull'alzare lo scontrino medio verso €75 e vendere prodotti sistematicamente. Ogni €10 in più di scontrino vale €250/settimana — €1.000 al mese.</div>
   </div>
 
@@ -135,7 +136,8 @@ tr.total td{font-weight:700;border-top:2px solid var(--sk-blue-light);background
 const CSV_URLS = {
   'marzo':  'https://docs.google.com/spreadsheets/d/e/2PACX-1vRjVzBXB4j5JpgT2iSZDAVLbHhVBDafdWIM7WKLX4mqMdQ1hFyYTXVv-NulPMNp4cjBisbwlJOUXvbw/pub?gid=0&single=true&output=csv',
   'aprile': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRjVzBXB4j5JpgT2iSZDAVLbHhVBDafdWIM7WKLX4mqMdQ1hFyYTXVv-NulPMNp4cjBisbwlJOUXvbw/pub?gid=1985267357&single=true&output=csv',
-  'maggio': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRjVzBXB4j5JpgT2iSZDAVLbHhVBDafdWIM7WKLX4mqMdQ1hFyYTXVv-NulPMNp4cjBisbwlJOUXvbw/pub?gid=270479089&single=true&output=csv'
+  'maggio': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRjVzBXB4j5JpgT2iSZDAVLbHhVBDafdWIM7WKLX4mqMdQ1hFyYTXVv-NulPMNp4cjBisbwlJOUXvbw/pub?gid=270479089&single=true&output=csv',
+  'giugno': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRjVzBXB4j5JpgT2iSZDAVLbHhVBDafdWIM7WKLX4mqMdQ1hFyYTXVv-NulPMNp4cjBisbwlJOUXvbw/pub?gid=178994054&single=true&output=csv'
 };
 
 const OB_INCASSO = 6000;
@@ -180,7 +182,6 @@ function settimanaDelMese(dataStr){
   return Math.floor((giorniDiff + offsetPrimo) / 7) + 1;
 }
 
-// Conta i giorni mar-sab in un mese
 function giorniLavorabiliMese(anno, mese){
   var ultimoGiorno = new Date(anno, mese, 0).getDate();
   var count = 0;
@@ -219,18 +220,14 @@ function caricaMese(mese, btn){
 }
 
 function renderMese(dati, mese){
-  var nomi = {marzo:'Marzo 2026', aprile:'Aprile 2026', maggio:'Maggio 2026'};
-  var mesiNum = {marzo:3, aprile:4, maggio:5};
+  var nomi = {marzo:'Marzo 2026', aprile:'Aprile 2026', maggio:'Maggio 2026', giugno:'Giugno 2026'};
+  var mesiNum = {marzo:3, aprile:4, maggio:5, giugno:6};
   var nomeMese = nomi[mese];
   var numMese = mesiNum[mese];
 
-  // Giorni lavorati = righe con Incasso >= 1
   var righe = dati.filter(r=>r.Incasso && parseFloat(r.Incasso)>=1);
   var giorniLavorati = righe.length;
   var giorniTotali = giorniLavorabiliMese(2026, numMese);
-
-  // Per scontrino/medie escludiamo le righe "presenza simbolica" (incasso 1€)
-  var righeReali = righe.filter(r=>parseFloat(r.Incasso)>1);
 
   var totIncasso = righe.reduce((s,r)=>s+parseFloat(r.Incasso||0),0);
   var totClienti = righe.reduce((s,r)=>s+parseInt(r.Clienti||0),0);
@@ -304,7 +301,7 @@ function renderMese(dati, mese){
     '</div>';
 }
 
-caricaMese('maggio', null);
+caricaMese('giugno', null);
 </script>
 </body>
 </html>
