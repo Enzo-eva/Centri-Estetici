@@ -92,10 +92,12 @@ tr.total td{font-weight:700;border-top:2px solid var(--sk-blue-light);background
   </div>
 
   <div class="tab-row">
-    <button class="tab" onclick="caricaMese('marzo',this)">Marzo 2026</button>
-    <button class="tab" onclick="caricaMese('aprile',this)">Aprile 2026</button>
-    <button class="tab" onclick="caricaMese('maggio',this)">Maggio 2026</button>
-    <button class="tab active" onclick="caricaMese('giugno',this)">Giugno 2026</button>
+    <button class="tab" onclick="caricaMese('marzo',this)">Marzo</button>
+    <button class="tab" onclick="caricaMese('aprile',this)">Aprile</button>
+    <button class="tab" onclick="caricaMese('maggio',this)">Maggio</button>
+    <button class="tab" onclick="caricaMese('giugno',this)">Giugno</button>
+    <button class="tab" onclick="caricaMese('luglio',this)">Luglio</button>
+    <button class="tab active" onclick="caricaMese('agosto',this)">Agosto</button>
   </div>
 
   <div id="aggiornato" class="aggiornato"></div>
@@ -121,8 +123,8 @@ tr.total td{font-weight:700;border-top:2px solid var(--sk-blue-light);background
   </div>
 
   <div class="card card-blue">
-    <div class="note-head"><p class="sl" style="margin:0">Note del consulente</p><span>Aggiornato giu 2026</span></div>
-    <div class="note-box">Il Centro Sartarelli sta crescendo settimana dopo settimana. Il focus rimane sull'alzare lo scontrino medio verso €75 e vendere prodotti sistematicamente. Ogni €10 in più di scontrino vale €250/settimana — €1.000 al mese.</div>
+    <div class="note-head"><p class="sl" style="margin:0">Note del consulente</p><span>Aggiornato ago 2026</span></div>
+    <div class="note-box">Il Centro Sartarelli sta crescendo mese dopo mese. Il focus rimane sull'alzare lo scontrino medio verso €75 e vendere prodotti sistematicamente. Ogni €10 in più di scontrino vale €250/settimana — €1.000 al mese.</div>
   </div>
 
   <div class="footer">
@@ -133,11 +135,17 @@ tr.total td{font-weight:700;border-top:2px solid var(--sk-blue-light);background
 </div>
 
 <script>
+// URL base dei due sheet pubblicati
+const SHEET_1 = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRjVzBXB4j5JpgT2iSZDAVLbHhVBDafdWIM7WKLX4mqMdQ1hFyYTXVv-NulPMNp4cjBisbwlJOUXvbw/pub';
+const SHEET_2 = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTlkSmnFhivCr-z6HXUAtm1uXzRO5IpVX1A7iK1P433EUJ5Y7lLYpXKr34Mf8MNiVxudJsJqqtYUZlz/pub';
+
 const CSV_URLS = {
-  'marzo':  'https://docs.google.com/spreadsheets/d/e/2PACX-1vRjVzBXB4j5JpgT2iSZDAVLbHhVBDafdWIM7WKLX4mqMdQ1hFyYTXVv-NulPMNp4cjBisbwlJOUXvbw/pub?gid=0&single=true&output=csv',
-  'aprile': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRjVzBXB4j5JpgT2iSZDAVLbHhVBDafdWIM7WKLX4mqMdQ1hFyYTXVv-NulPMNp4cjBisbwlJOUXvbw/pub?gid=1985267357&single=true&output=csv',
-  'maggio': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRjVzBXB4j5JpgT2iSZDAVLbHhVBDafdWIM7WKLX4mqMdQ1hFyYTXVv-NulPMNp4cjBisbwlJOUXvbw/pub?gid=270479089&single=true&output=csv',
-  'giugno': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRjVzBXB4j5JpgT2iSZDAVLbHhVBDafdWIM7WKLX4mqMdQ1hFyYTXVv-NulPMNp4cjBisbwlJOUXvbw/pub?gid=178994054&single=true&output=csv'
+  'marzo':  SHEET_1 + '?gid=0&single=true&output=csv',
+  'aprile': SHEET_1 + '?gid=1985267357&single=true&output=csv',
+  'maggio': SHEET_1 + '?gid=270479089&single=true&output=csv',
+  'giugno': SHEET_2 + '?gid=191628794&single=true&output=csv',
+  'luglio': SHEET_2 + '?gid=2126913334&single=true&output=csv',
+  'agosto': SHEET_2 + '?gid=782796094&single=true&output=csv'
 };
 
 const OB_INCASSO = 6000;
@@ -220,8 +228,8 @@ function caricaMese(mese, btn){
 }
 
 function renderMese(dati, mese){
-  var nomi = {marzo:'Marzo 2026', aprile:'Aprile 2026', maggio:'Maggio 2026', giugno:'Giugno 2026'};
-  var mesiNum = {marzo:3, aprile:4, maggio:5, giugno:6};
+  var nomi = {marzo:'Marzo 2026', aprile:'Aprile 2026', maggio:'Maggio 2026', giugno:'Giugno 2026', luglio:'Luglio 2026', agosto:'Agosto 2026'};
+  var mesiNum = {marzo:3, aprile:4, maggio:5, giugno:6, luglio:7, agosto:8};
   var nomeMese = nomi[mese];
   var numMese = mesiNum[mese];
 
@@ -301,7 +309,7 @@ function renderMese(dati, mese){
     '</div>';
 }
 
-caricaMese('giugno', null);
+caricaMese('agosto', null);
 </script>
 </body>
 </html>
